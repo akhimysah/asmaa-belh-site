@@ -1,0 +1,9 @@
+Déposer ici les visuels de campagne, avec exactement ces noms :
+
+  hero-asmaa.jpg              -> en place (recadré sur la partie droite du visuel ; original : hero-asmaa-full.jpg)
+  cartographie.jpg            -> en place
+  conversation-difficile.jpg  -> en place
+  menu.jpg                    -> visuel du menu (déjà en place)
+
+Toutes les images ont été agrandies x4 par IA (Real-ESRGAN) depuis les affiches 1024 px, puis recadrées.
+Tant qu'un fichier manque, la zone affiche un fond sombre neutre.

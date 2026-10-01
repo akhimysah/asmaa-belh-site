@@ -1,0 +1,49 @@
+# Squelette de site — Asmaa Belh
+
+Site statique (HTML / CSS / JS, sans dépendance ni build). Ouvrir `index.html` dans un navigateur suffit.
+
+## Arborescence
+
+| Page | Fichier | Rubrique du brief |
+|---|---|---|
+| Accueil | `index.html` | Vue d'ensemble : hero, Asmaa, univers, prochaine retraite, livres, podcast, newsletter |
+| Asmaa | `asmaa.html` | Qui est Asmaa (#qui) · Son parcours (#parcours) · Son approche (#approche) · Formations et pratiques (#formations) |
+| Programmes | `programmes.html` | Sexy & Sacrée · Cartographie · Avoir une conversation difficile · Comprendre ma femme |
+| Immersions & Retraites | `immersions-retraites.html` | Présentation · Dates · Lieux · Programme · Tarifs · Inclus · Inscription · Photos/vidéos |
+| ORR | `orr.html` | Découvrir l'expérience (#experience) · Les rituels (#rituels) · La boutique (#boutique) |
+| Podcasts | `podcasts.html` | Les derniers épisodes (#derniers) · Tous les podcasts (#tous) |
+| Livres | `livres.html` | Sexy & Sacrée · Love Programme · L'ouvrage autour de l'argent (#argent) · Tous les livres |
+| Galerie | `galerie.html` | Grille filtrable de photos |
+| Contact | `contact.html` | Email · téléphone · réseaux · formulaire |
+
+Le header, le menu plein écran numéroté (réf. maquette) et le footer sont générés par `assets/js/main.js` : l'arborescence se modifie dans la constante `MENU`.
+
+## Repères « À fournir »
+
+Chaque contenu manquant est signalé par un bloc en pointillés avec une étiquette. Le bouton flottant en bas à droite permet de masquer ces repères pour juger la maquette « propre ».
+
+## Checklist des contenus à recevoir
+
+**Asmaa** : biographie, parcours (frise), approche (3 piliers), formations/certifications, méthodes (texte par pratique), photos pro.
+
+**Immersions & Retraites** : texte de présentation, puis pour chaque retraite : nom, dates, lieu, programme, tarifs, inclus, modalités d'inscription, photos/vidéos, témoignages.
+
+**Programmes** : pour chacun des 4 programmes : présentation, format, durée, tarif, lien d'inscription, visuel.
+
+**ORR** : signification, présentation de l'expérience, liste des rituels, produits de la boutique, liens (site + boutique), visuels.
+
+**Podcasts** : nom, présentation, cover, liens plateformes (Spotify, Apple, YouTube…), lien du dernier épisode à intégrer.
+
+**Livres** : couverture HD, résumé, extrait, liens d'achat, avis, pour chaque livre (dont le titre exact de l'ouvrage autour de l'argent).
+
+**Galerie** : photos HD (paysage + portrait), catégories souhaitées.
+
+**Contact** : email, téléphone (si souhaité), Instagram, YouTube, Spotify, TikTok, autres.
+
+## Charte provisoire
+
+- Direction validée : **à l'identique des visuels de campagne** (noir, marbre, or). Les 3 pistes claires restent consultables dans `directions.html`.
+- Couleurs : noir `#0b0a0a`, bordeaux `#3d0f1a`, or `#d4b46a` (dégradé or pour le logo, le titre et les boutons), ivoire `#f5efe4`.
+- Photos : dans `assets/img/`. Les affiches sources (1024 px) ont été agrandies x4 par IA (Real-ESRGAN, script dans le scratchpad de session) avant recadrage ; pour un rendu optimal, remplacer par les exports HD dès réception.
+- Typographies : Cormorant Garamond (titres), Jost (texte). Chargées depuis Google Fonts.
+- Tout est ajustable dans les variables en tête de `assets/css/style.css`.
