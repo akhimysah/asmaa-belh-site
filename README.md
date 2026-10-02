@@ -61,4 +61,6 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 - **Données structurées** (schema.org) : Personne et Site sur l'accueil, Personne sur la page Asmaa, les deux Livres sur la page Livres.
 - **Formulaires** (contact, liste d'attente, lettre) : validation en français, piège anti-robots, mention de confidentialité. Pour les rendre réels, coller l'adresse d'envoi du service choisi (Formspree, Getform, Basin…) dans `FORM_ENDPOINTS` en haut de la section formulaires de `assets/js/main.js`. Vide = mode démonstration.
 - **Suivi des contenus** : `a-fournir.html` liste automatiquement toutes les zones « À fournir » du site, avec un bouton pour copier la liste à envoyer à la cliente. Page non liée dans le menu.
+- **Contrôle qualité automatique** : `python3 tools/check.py` vérifie liens, ancres, images, textes alternatifs, métadonnées, versions WebP et absence de ressources externes. Il tourne aussi sur GitHub à chaque publication (onglet Actions, workflow « Vérification du site »).
+- **Mouvements** : entrée progressive du texte d'en-tête, zoom lent sur la photo, filets dorés animés, reflet sur les boutons, bouton de retour en haut. Tout est coupé si le visiteur a réduit les animations dans son système.
 - **Originaux des visuels** : hors du site, dans `../sources-images/`.

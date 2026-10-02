@@ -402,7 +402,25 @@ function initForms() {
   });
 }
 
+function initBackToTop() {
+  const btn = document.createElement("button");
+  btn.className = "to-top";
+  btn.type = "button";
+  btn.setAttribute("aria-label", "Revenir en haut de la page");
+  btn.innerHTML = '<span aria-hidden="true">↑</span>';
+  document.body.appendChild(btn);
+  const onScroll = () => btn.classList.toggle("show", window.scrollY > window.innerHeight * 1.2);
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  btn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    const skip = document.querySelector(".skip-link");
+    if (skip) skip.focus({ preventScroll: true });
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
+  requestAnimationFrame(() => document.documentElement.classList.add("is-loaded"));
   renderHeader();
   renderFooter();
   initReveal();
@@ -410,4 +428,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initGalleryFilters();
   initLightbox();
   initForms();
+  initBackToTop();
 });
