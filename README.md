@@ -42,7 +42,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 
 ## Charte provisoire
 
-- Direction validée : **à l'identique des visuels de campagne** (noir, marbre, or). Les 3 pistes claires restent consultables dans `directions.html`.
+- Direction validée : **à l'identique des visuels de campagne** (noir, marbre, or). Les 3 pistes claires comparées au départ sont archivées hors du site (`../archives/directions.html`).
 - Couleurs : noir `#0b0a0a`, bordeaux `#3d0f1a`, or `#d4b46a` (dégradé or pour le logo, le titre et les boutons), ivoire `#f5efe4`.
 - Photos : dans `assets/img/`. Les affiches sources (1024 px) ont été agrandies x4 par IA (Real-ESRGAN, script dans le scratchpad de session) avant recadrage ; pour un rendu optimal, remplacer par les exports HD dès réception.
 - Typographies : Cormorant Garamond (titres), Playfair Display (titre d'accueil), Jost (texte). Hébergées sur le site dans `assets/fonts/` (licence SIL OFL), déclarées dans `assets/css/fonts.css`.
