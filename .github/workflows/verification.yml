@@ -52,9 +52,11 @@ jobs:
           node-version: "22"
       - name: Serveur local avec compression (comme GitHub Pages)
         run: |
-          npx --yes serve@14 -l 8765 --no-clipboard . >/dev/null 2>&1 &
+          echo '{ "cleanUrls": false, "trailingSlash": false }' > "$RUNNER_TEMP/serve.json"
+          npx --yes serve@14 -l 8765 --no-clipboard --config "$RUNNER_TEMP/serve.json" . >/dev/null 2>&1 &
           for i in $(seq 1 40); do curl -sf http://localhost:8765/index.html >/dev/null && break; sleep 0.5; done
-          curl -sI -H "Accept-Encoding: gzip" http://localhost:8765/assets/css/style.css | grep -i content-encoding || echo "compression absente"
+          echo "redirection index.html : $(curl -s -o /dev/null -w '%{http_code}' http://localhost:8765/index.html)"
+          echo "compression style.css : $(curl -s -o /dev/null -D - -H 'Accept-Encoding: gzip' http://localhost:8765/assets/css/style.css | grep -i content-encoding || echo absente)"
       - name: Notes performance, accessibilité, bonnes pratiques, référencement
         run: node tools/lighthouse.js
         env:
