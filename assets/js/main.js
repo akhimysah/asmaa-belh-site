@@ -77,13 +77,14 @@ function renderHeader() {
   const page = currentPage();
 
   el.innerHTML = `
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
     <div class="wip-banner">Squelette de site — version de travail, contenus à compléter</div>
     <header class="site-header">
       <div class="container">
         <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute • Autrice • Entrepreneure • Créatrice de l'univers ORR</small></a>
         <nav class="nav-inline" aria-label="Navigation principale">
           ${MENU.filter((m) => m.href !== "index.html").map(
-            (m) => `<a href="${m.href}" class="${page === m.href ? "active" : ""}">${m.short || m.label}</a>`
+            (m) => `<a href="${m.href}" class="${page === m.href ? "active" : ""}"${page === m.href ? ' aria-current="page"' : ""}>${m.short || m.label}</a>`
           ).join("")}
         </nav>
         <div class="header-right">
@@ -108,7 +109,7 @@ function renderHeader() {
               <span class="num">${m.num}</span>
               <span class="bar"></span>
               <div>
-                <a class="menu-main" href="${m.href}">${m.label}</a>
+                <a class="menu-main" href="${m.href}"${page === m.href ? ' aria-current="page"' : ""}>${m.label}</a>
                 ${m.sub ? `<ul class="menu-sub">${m.sub.map((s) => `<li><a href="${s.href}">${s.label}</a></li>`).join("")}</ul>` : ""}
               </div>
             </li>`
@@ -127,6 +128,12 @@ function renderHeader() {
     </div>`;
 
   document.body.classList.add("has-banner");
+  const firstSection = document.querySelector("body > section");
+  if (firstSection && !document.getElementById("contenu")) {
+    const anchor = document.createElement("span");
+    anchor.id = "contenu"; anchor.tabIndex = -1;
+    firstSection.prepend(anchor);
+  }
 
   const banner = el.querySelector(".wip-banner");
   const setBannerH = () =>
@@ -142,15 +149,27 @@ function renderHeader() {
   const overlay = el.querySelector(".menu-overlay");
   const openBtn = el.querySelector(".menu-btn");
   const closeBtn = el.querySelector(".menu-close");
+  overlay.inert = true;
+  let isOpen = false;
   const setOpen = (open) => {
+    if (open === isOpen) return;
+    isOpen = open;
     overlay.classList.toggle("open", open);
+    overlay.inert = !open;
     document.body.classList.toggle("menu-open", open);
     openBtn.setAttribute("aria-expanded", String(open));
-    if (open) closeBtn.focus(); else openBtn.focus();
+    requestAnimationFrame(() => requestAnimationFrame(() => (open ? closeBtn : openBtn).focus()));
   };
+  overlay.addEventListener("keydown", (e) => {
+    if (e.key !== "Tab") return;
+    const f = [...overlay.querySelectorAll("a, button")].filter((x) => x.offsetParent !== null);
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
   openBtn.addEventListener("click", () => setOpen(true));
   closeBtn.addEventListener("click", () => setOpen(false));
-  document.addEventListener("keydown", (e) => { if (e.key === "Escape") setOpen(false); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && isOpen) setOpen(false); });
   overlay.querySelectorAll("a").forEach((a) => {
     a.addEventListener("click", () => {
       const target = a.getAttribute("href").split("#")[0];
@@ -167,8 +186,8 @@ function renderFooter() {
       <div class="container">
         <div class="footer-grid">
           <div>
-            <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute · Autrice</small></a>
-            <p style="margin-top:1.2rem;max-width:320px">Réconcilier ta puissance, ta sensualité et ton cœur — pour t'aimer d'abord, et aimer mieux ensuite.</p>
+            <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute · Autrice · Entrepreneure</small></a>
+            <p style="margin-top:1.2rem;max-width:320px">Quand une femme se réaligne, tout son monde change.</p>
           </div>
           <div>
             <h4>Explorer</h4>
@@ -194,7 +213,7 @@ function renderFooter() {
         </div>
         <div class="footer-bottom">
           <span>© ${new Date().getFullYear()} Asmaa Belh — Tous droits réservés</span>
-          <span><a href="#">Mentions légales</a> · <a href="#">Politique de confidentialité</a></span>
+          <span><a href="mentions-legales.html">Mentions légales</a> · <a href="confidentialite.html">Politique de confidentialité</a></span>
         </div>
       </div>
     </footer>`;

@@ -47,3 +47,12 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 - Photos : dans `assets/img/`. Les affiches sources (1024 px) ont été agrandies x4 par IA (Real-ESRGAN, script dans le scratchpad de session) avant recadrage ; pour un rendu optimal, remplacer par les exports HD dès réception.
 - Typographies : Cormorant Garamond (titres), Jost (texte). Chargées depuis Google Fonts.
 - Tout est ajustable dans les variables en tête de `assets/css/style.css`.
+
+## Technique
+
+- **Aperçu de lien** (WhatsApp, iMessage, réseaux) : `assets/img/og-image.jpg`, déclaré dans chaque page.
+- **Icônes** : `favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` (monogramme AB).
+- **Pages ajoutées** : `mentions-legales.html`, `confidentialite.html` (champs légaux à compléter), `404.html`.
+- **Accessibilité** : lien « Aller au contenu », page active signalée, menu utilisable au clavier (focus piégé, Échap pour fermer), animations coupées si l'utilisateur les désactive.
+- **Brouillon non indexé** : `noindex` sur toutes les pages et `robots.txt`. À retirer à la mise en production.
+- **Originaux des visuels** : hors du site, dans `../sources-images/`.

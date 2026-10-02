@@ -699,3 +699,28 @@ section[id], article[id], li[id] { scroll-margin-top: 6rem; }
 .approach-title { position: sticky; top: 7rem; }
 @media (max-width: 860px) { .approach-title { position: static; } }
 @media (max-width: 860px) { .hero-page:has(.photo:not(.photo-banner)) .hero-content { padding-top: 54vh; } }
+
+/* ---------- Pages légales & 404 ---------- */
+.legal-title { font-size: clamp(2.4rem, 5vw, 4rem); }
+.legal h2 { font-size: clamp(1.4rem, 2.2vw, 1.8rem); margin: 2.6rem 0 0.8rem; color: var(--or-3); }
+.legal p, .legal li { color: var(--blanc-80); line-height: 1.85; }
+.legal strong { color: var(--blanc); font-weight: 400; }
+.legal-list { display: grid; gap: 0; border-top: 1px solid var(--line); margin: 0; }
+.legal-list > div { display: grid; grid-template-columns: 240px 1fr; gap: 1rem; padding: 0.9rem 0; border-bottom: 1px solid var(--line); }
+.legal-list dt { font-size: 0.62rem; letter-spacing: 0.26em; text-transform: uppercase; color: var(--or); padding-top: 0.3rem; }
+.legal-list dd { margin: 0; }
+.legal-updated { margin-top: 3rem; font-size: 0.85rem; color: var(--muted) !important; }
+@media (max-width: 640px) { .legal-list > div { grid-template-columns: 1fr; gap: 0.3rem; } }
+.notfound { min-height: 80vh; display: grid; align-items: center; padding-top: 10rem; background: radial-gradient(ellipse at 50% 30%, rgba(90,20,35,0.6), transparent 60%), var(--noir); }
+.notfound h1 { font-size: clamp(2.6rem, 6vw, 4.6rem); }
+.notfound h1 em { color: var(--or-3); }
+
+/* ---------- Accessibilité ---------- */
+.skip-link { position: fixed; top: -100px; left: 1rem; z-index: 100; background: var(--or); color: #1a1408; padding: 0.8em 1.4em; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; transition: top 0.2s; }
+.skip-link:focus { top: 1rem; }
+:focus { outline: none; }
+:focus-visible { outline: 1px solid var(--or); outline-offset: 4px; }
+.btn:focus-visible { outline-offset: 3px; }
+.field input:focus-visible, .field textarea:focus-visible, .field select:focus-visible { outline: none; border-color: var(--or); }
+.nav-inline a[aria-current="page"], .menu-main[aria-current="page"] { color: var(--or-3); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }
