@@ -1776,3 +1776,7 @@ body.menu-open .section-rail { opacity: 0; pointer-events: none; }
 .video-duree { position: absolute; right: 0.8rem; bottom: 0.8rem; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blanc); background: rgba(11,10,10,0.7); padding: 0.35em 0.7em; border: 1px solid var(--line); }
 .video-frame.is-playing .video-play, .video-frame.is-playing .video-duree { display: none; }
 .video-frame.is-error::after { content: "Vidéo momentanément indisponible"; position: absolute; inset: auto 0 0 0; padding: 0.6rem; text-align: center; font-size: 0.75rem; color: var(--blanc-80); background: rgba(61,15,26,0.9); }
+
+/* Galerie : légendes et filtres plus lisibles sur mobile (Lighthouse : tailles de police) */
+.g-item figcaption { font-size: 0.78rem; letter-spacing: 0.12em; }
+.filters button { font-size: 0.72rem; }
