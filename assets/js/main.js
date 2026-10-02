@@ -103,7 +103,7 @@ function renderHeader() {
     ${SHOW_DRAFT_UI ? '<div class="wip-banner">Squelette de site — version de travail, contenus à compléter</div>' : ""}
     <header class="site-header">
       <div class="container">
-        <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute • Autrice • Entrepreneure • Créatrice de l'univers ORR</small></a>
+        <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute • Autrice • Entrepreneure<br>Créatrice de l'univers ORR</small></a>
         <nav class="nav-inline" aria-label="Navigation principale">
           ${MENU.filter((m) => m.href !== "index.html").map(
             (m) => `<a href="${m.href}" class="${page === m.href ? "active" : ""}"${page === m.href ? ' aria-current="page"' : ""}>${m.short || m.label}</a>`

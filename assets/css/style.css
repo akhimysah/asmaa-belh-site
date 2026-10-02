@@ -1723,3 +1723,31 @@ body.presentation #argent .book-cover .img-ph::after { content: "Bientôt"; font
 .reviews-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
 .card-body .card-quote { font-family: var(--font-display); font-style: italic; font-size: 1.1rem; color: var(--or-3); margin-top: 0.4rem; }
 .card-quote span { display: block; font-family: var(--font-body); font-style: normal; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
+
+/* Slogan sous le logo : deux lignes, comme la maquette */
+.site-header .logo small { max-width: none; white-space: nowrap; }
+@media (max-width: 400px) { .site-header .logo small { letter-spacing: 0.2em; } }
+@media (max-width: 340px) { .site-header .logo small { letter-spacing: 0.12em; font-size: 0.5rem; } }
+
+/* =========================================================
+   Impression (toutes les pages, et liste « à fournir » en particulier)
+   ========================================================= */
+@media print {
+  :root { --blanc: #111; --blanc-80: #222; --muted: #555; --line: #bbb; --or: #6b5320; --or-3: #6b5320; }
+  html, body { background: #fff !important; color: #111 !important; }
+  .wip-banner, .site-header, .menu-overlay, .lightbox, .ph-toggle, .to-top, .skip-link, .site-footer, .nojs-nav, .nojs-foot, video, .hero-media, .btn-row, .todo-actions, .todo-copied, .todo-howto { display: none !important; }
+  .reveal, .hero-content > * { opacity: 1 !important; transform: none !important; }
+  .section, .section-sand, .section-plum, .hero, .bientot, .come-as-you-are, .todo-page, .card, .pillar { background: #fff !important; color: #111 !important; box-shadow: none !important; }
+  .hero { min-height: 0 !important; }
+  .hero-content, .section { padding-top: 1.2rem !important; padding-bottom: 1.2rem !important; }
+  h1, h2, h3, .logo, .gold, .hero h1 em { color: #111 !important; -webkit-text-fill-color: #111 !important; background: none !important; }
+  a { color: #111 !important; text-decoration: underline; }
+  .todo-toolbar { position: static !important; background: #fff !important; border: 1px solid #bbb; }
+  .todo-list { gap: 0.8rem; }
+  .todo-page { break-inside: auto; border: 1px solid #bbb !important; }
+  .todo-item { break-inside: avoid; }
+  .todo-item textarea { background: #fff !important; color: #111 !important; border: 1px solid #999 !important; min-height: 4.5em; resize: none; }
+  .todo-item.is-visual textarea { min-height: 2.2em; }
+  .todo-item textarea::placeholder { color: transparent; }
+  @page { margin: 14mm; }
+}
