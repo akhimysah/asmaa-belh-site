@@ -27,8 +27,9 @@
   <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "@id": "https://akhimysah.github.io/asmaa-belh-site/#asmaa", "name": "Asmaa Belh", "jobTitle": "Thérapeute, autrice et entrepreneure", "url": "https://akhimysah.github.io/asmaa-belh-site/", "image": "https://akhimysah.github.io/asmaa-belh-site/assets/img/og-image.jpg", "description": "Thérapeute formée à l'analyse transactionnelle, autrice de Sexy et Sacrée et de Love Programme, créatrice de l'univers ORR. Programmes, retraites et immersions.", "knowsAbout": ["Analyse transactionnelle", "Hypnose", "Psychothérapie", "Couple et relations", "Féminin sacré"], "knowsLanguage": "fr"}</script>
   <link rel="preload" href="assets/fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" href="assets/img/hero-asmaa.webp?v=1790899774" type="image/webp" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
-  <link rel="stylesheet" href="assets/css/style.css?v=1790939541">
+  <link rel="stylesheet" href="assets/css/style.css?v=1790940107">
 </head>
 <body>
 
@@ -37,7 +38,7 @@
 <!-- ===== HERO ===== -->
 <section class="hero">
   <div class="hero-media">
-    <div class="photo" data-missing="Photo du hero — déposer assets/img/hero-asmaa.jpg"><picture><source srcset="assets/img/hero-asmaa.webp?v=1790899774" type="image/webp"><img src="assets/img/hero-asmaa.jpg?v=1790899774" alt="Asmaa Belh" onerror="this.closest('.photo').classList.add('missing')"></picture></div>
+    <div class="photo" data-missing="Photo du hero — déposer assets/img/hero-asmaa.jpg"><picture><source srcset="assets/img/hero-asmaa.webp?v=1790899774" type="image/webp"><img src="assets/img/hero-asmaa.jpg?v=1790899774" fetchpriority="high" decoding="async" alt="Asmaa Belh" onerror="this.closest('.photo').classList.add('missing')"></picture></div>
   </div>
   <div class="container hero-content">
     <h1>Quand une femme se réaligne, <em>tout son monde change.</em></h1>
@@ -235,14 +236,19 @@
       <h2>Rejoins les Sacrées.</h2>
       <p class="lead">Une lettre par semaine : un rituel, une clé, une vérité dite simplement. Et les premières places pour les retraites.</p>
     </div>
-    <form data-demo class="reveal">
-      <input type="email" placeholder="Ton adresse email" aria-label="Email">
-      <button type="submit">S'inscrire</button>
+    <form class="reveal newsletter-form" data-form="newsletter" novalidate>
+      <div class="nl-row">
+        <input type="email" name="email" placeholder="Ton adresse email" aria-label="Ton adresse email" autocomplete="email" required>
+        <button type="submit">S'inscrire</button>
+      </div>
+      <div class="hp" aria-hidden="true"><label>Ne pas remplir ce champ<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <p class="form-consent">Une lettre par semaine, désinscription en un clic. <a href="confidentialite.html">Politique de confidentialité</a>.</p>
+      <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>
 </section>
 
 <div data-site-footer></div>
-<script src="assets/js/main.js?v=1790939541"></script>
+<script src="assets/js/main.js?v=1790940170"></script>
 </body>
 </html>

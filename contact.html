@@ -26,7 +26,7 @@
   <link rel="preload" href="assets/fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
-  <link rel="stylesheet" href="assets/css/style.css?v=1790939541">
+  <link rel="stylesheet" href="assets/css/style.css?v=1790940107">
 </head>
 <body>
 
@@ -52,14 +52,14 @@
     </div>
 
     <div class="reveal">
-      <form class="form" data-demo>
+      <form class="form" data-form="contact" novalidate>
         <div class="form-row">
-          <div class="field"><label for="prenom">Prénom</label><input id="prenom" type="text" required></div>
-          <div class="field"><label for="email">Email</label><input id="email" type="email" required></div>
+          <div class="field"><label for="prenom">Prénom</label><input id="prenom" name="prenom" type="text" autocomplete="given-name" required></div>
+          <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
         </div>
         <div class="field">
           <label for="sujet">Sujet</label>
-          <select id="sujet">
+          <select id="sujet" name="sujet">
             <option>Une retraite / immersion</option>
             <option>ORR</option>
             <option>Podcast / presse</option>
@@ -67,10 +67,12 @@
             <option>Autre</option>
           </select>
         </div>
-        <div class="field"><label for="message">Message</label><textarea id="message" required></textarea></div>
+        <div class="field"><label for="message">Message</label><textarea id="message" name="message" required minlength="10"></textarea></div>
+        <div class="hp" aria-hidden="true"><label>Ne pas remplir ce champ<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
         <div>
-          <button type="submit" class="btn btn-solid">Envoyer</button>
-          <p style="font-size:0.75rem;color:var(--muted);margin-top:1rem">Formulaire de démonstration : l'envoi (email de réception, anti-spam) sera configuré en production.</p>
+          <button type="submit" class="btn btn-solid">Envoyer <span aria-hidden="true">→</span></button>
+          <p class="form-consent">Vos informations servent uniquement à vous répondre. <a href="confidentialite.html">Politique de confidentialité</a>.</p>
+          <p class="form-status" role="status" aria-live="polite"></p>
         </div>
       </form>
     </div>
@@ -84,6 +86,6 @@
 </section>
 
 <div data-site-footer></div>
-<script src="assets/js/main.js?v=1790939541"></script>
+<script src="assets/js/main.js?v=1790940170"></script>
 </body>
 </html>

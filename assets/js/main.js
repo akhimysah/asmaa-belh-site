@@ -317,11 +317,87 @@ function initLightbox() {
   box.addEventListener("touchend", (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
 }
 
+/* ---------------------------------------------------------
+   FORMULAIRES
+   Coller ici l'adresse d'envoi fournie par le service choisi
+   (Formspree, Getform, Basin…). Vide = mode démonstration.
+   On peut aussi définir une adresse par formulaire.
+   --------------------------------------------------------- */
+const FORM_ENDPOINTS = {
+  default: "",
+  contact: "",
+  "liste-attente": "",
+  newsletter: "",
+};
+
+const FORM_MESSAGES = {
+  contact: "Merci, votre message est bien parti. Asmaa vous répondra personnellement.",
+  "liste-attente": "Merci, vous êtes inscrit·e sur la liste d'attente. Vous serez parmi les premiers informés des prochaines dates.",
+  newsletter: "Merci, c'est noté. À très vite dans ta boîte mail.",
+};
+
+function fieldError(field) {
+  const v = field.validity;
+  if (v.valueMissing) return field.type === "email" ? "Merci d'indiquer votre adresse email." : "Ce champ est nécessaire.";
+  if (v.typeMismatch && field.type === "email") return "Cette adresse email ne semble pas valide.";
+  if (v.tooShort || (field.minLength > 0 && field.value && field.value.trim().length < field.minLength)) return `Encore quelques mots (au moins ${field.minLength} caractères).`;
+  return "";
+}
+
+function showFieldError(field, msg) {
+  const host = field.closest(".field") || field.closest(".nl-row") || field.parentElement;
+  let el = host.querySelector(".field-error");
+  if (!el) {
+    el = document.createElement("p");
+    el.className = "field-error";
+    el.id = (field.id || field.name) + "-erreur";
+    host.appendChild(el);
+  }
+  el.textContent = msg;
+  field.setAttribute("aria-invalid", msg ? "true" : "false");
+  if (msg) field.setAttribute("aria-describedby", el.id); else field.removeAttribute("aria-describedby");
+}
+
 function initForms() {
-  document.querySelectorAll("form[data-demo]").forEach((f) => {
-    f.addEventListener("submit", (e) => {
+  document.querySelectorAll("form[data-form]").forEach((form) => {
+    const type = form.dataset.form;
+    const status = form.querySelector(".form-status");
+    const btn = form.querySelector('button[type="submit"]');
+    const fields = [...form.querySelectorAll("input, select, textarea")].filter((f) => f.name !== "_gotcha");
+    const setStatus = (msg, kind) => { status.textContent = msg; status.className = "form-status " + (kind || ""); };
+
+    fields.forEach((f) => f.addEventListener("blur", () => { if (f.value) showFieldError(f, fieldError(f)); }));
+    fields.forEach((f) => f.addEventListener("input", () => { if (f.getAttribute("aria-invalid") === "true") showFieldError(f, fieldError(f)); }));
+
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      alert("Formulaire de démonstration — l'envoi sera branché lors de la mise en production.");
+      let firstBad = null;
+      fields.forEach((f) => { const m = fieldError(f); showFieldError(f, m); if (m && !firstBad) firstBad = f; });
+      if (firstBad) { setStatus("Quelques informations manquent, voir ci-dessus.", "is-error"); firstBad.focus(); return; }
+
+      const done = (demo) => {
+        form.reset();
+        setStatus(FORM_MESSAGES[type] + (demo ? " (Démonstration : aucun envoi réel pour l'instant.)" : ""), "is-ok");
+      };
+      if (form.querySelector('[name="_gotcha"]').value) { done(false); return; }
+
+      const endpoint = FORM_ENDPOINTS[type] || FORM_ENDPOINTS.default;
+      if (!endpoint) { done(true); return; }
+
+      const label = btn.innerHTML;
+      btn.disabled = true; btn.textContent = "Envoi…";
+      try {
+        const data = new FormData(form);
+        data.append("_formulaire", type);
+        data.append("_page", location.pathname);
+        const res = await fetch(endpoint, { method: "POST", body: data, headers: { Accept: "application/json" } });
+        if (!res.ok) throw new Error(res.status);
+        done(false);
+      } catch (err) {
+        setStatus("L'envoi n'a pas abouti. Merci de réessayer dans un instant, ou d'écrire directement par email.", "is-error");
+      } finally {
+        btn.disabled = false; btn.innerHTML = label;
+      }
     });
   });
 }

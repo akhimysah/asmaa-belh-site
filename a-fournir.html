@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Contenus à fournir | Asmaa Belh</title>
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
+  <link rel="stylesheet" href="assets/css/style.css?v=1790940107">
+</head>
+<body>
+
+<div data-site-header></div>
+
+<section class="section todo" style="padding-top:clamp(9rem,16vh,12rem)">
+  <div class="container">
+    <span class="eyebrow eyebrow-gold">Suivi du projet</span>
+    <h1 class="legal-title">Contenus à fournir.</h1>
+    <p class="lead">Liste générée automatiquement à partir des zones « À fournir » de chaque page. Elle se met à jour toute seule au fil des contenus intégrés.</p>
+    <div class="todo-summary" id="todo-summary" aria-live="polite">Analyse des pages…</div>
+    <div class="btn-row">
+      <button class="btn" type="button" id="todo-copy">Copier la liste pour la cliente</button>
+      <span class="todo-copied" id="todo-copied" role="status"></span>
+    </div>
+    <div id="todo-list" class="todo-list"></div>
+  </div>
+</section>
+
+<div data-site-footer></div>
+<script src="assets/js/main.js?v=1790940170"></script>
+<script>
+(async () => {
+  const pages = [
+    ["Accueil", "index.html"], ["Asmaa", "asmaa.html"], ["Programmes", "programmes.html"],
+    ["Immersions & Retraites", "immersions-retraites.html"], ["ORR", "orr.html"], ["Podcasts", "podcasts.html"],
+    ["Livres", "livres.html"], ["Galerie", "galerie.html"], ["Contact", "contact.html"],
+    ["Mentions légales", "mentions-legales.html"], ["Confidentialité", "confidentialite.html"],
+  ];
+  const clean = (t) => t.replace(/\s+/g, " ").replace(/^À compléter( pour ce livre)? ?:? ?/i, "").trim();
+  const sectionOf = (el) => {
+    const sec = el.closest("section, article, li[id]");
+    if (!sec) return "Général";
+    const h = sec.querySelector("h1, h2, h3");
+    const t = h ? h.textContent.replace(/\s+/g, " ").trim() : "";
+    return t || "Général";
+  };
+  const report = [];
+  for (const [label, url] of pages) {
+    try {
+      const html = await (await fetch(url, { cache: "no-store" })).text();
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const items = [];
+      doc.querySelectorAll(".ph, .img-ph, .photo[data-missing]").forEach((el) => {
+        if (el.closest(".ph") && el.closest(".ph") !== el) return;
+        let txt;
+        if (el.classList.contains("img-ph")) txt = "Visuel : " + (el.dataset.label || "photo");
+        else if (el.classList.contains("photo")) return;
+        else {
+          const li = [...el.querySelectorAll("li")].map((x) => clean(x.textContent));
+          txt = li.length ? clean([...el.childNodes].filter((n) => n.nodeType === 3).map((n) => n.textContent).join(" ")) + (li.length ? " — " + li.join(" · ") : "") : clean(el.textContent);
+          if (el.classList.contains("ph-link")) txt = "Lien : " + txt;
+        }
+        if (txt && txt.replace(/[—:·\s]/g, "")) items.push({ section: sectionOf(el), txt });
+      });
+      const dedup = [];
+      const seen = new Map();
+      items.forEach((it) => { const k = it.section + "|" + it.txt; seen.set(k, (seen.get(k) || 0) + 1); if (seen.get(k) === 1) dedup.push(it); });
+      dedup.forEach((it) => { const n = seen.get(it.section + "|" + it.txt); if (n > 1) it.txt += ` (×${n})`; });
+      report.push({ label, url, items: dedup });
+    } catch (e) { report.push({ label, url, items: [], error: true }); }
+  }
+  const list = document.getElementById("todo-list");
+  const total = report.reduce((n, p) => n + p.items.length, 0);
+  document.getElementById("todo-summary").innerHTML =
+    `<strong>${total}</strong> éléments à fournir sur <strong>${report.filter((p) => p.items.length).length}</strong> pages. ` +
+    `Pages complètes : ${report.filter((p) => !p.items.length && !p.error).map((p) => p.label).join(", ") || "aucune pour l'instant"}.`;
+  report.forEach((p) => {
+    if (!p.items.length) return;
+    const bySec = {};
+    p.items.forEach((it) => (bySec[it.section] ||= []).push(it.txt));
+    const box = document.createElement("article");
+    box.className = "todo-page";
+    box.innerHTML = `<header><h2><a href="${p.url}">${p.label}</a></h2><span class="todo-count">${p.items.length}</span></header>` +
+      Object.entries(bySec).map(([sec, arr]) => `<div class="todo-sec"><h3>${sec}</h3><ul>${arr.map((t) => `<li>${t.replace(/</g, "&lt;")}</li>`).join("")}</ul></div>`).join("");
+    list.appendChild(box);
+  });
+  document.getElementById("todo-copy").addEventListener("click", async () => {
+    const txt = "Contenus à fournir pour le site\n\n" + report.filter((p) => p.items.length).map((p) => {
+      const bySec = {};
+      p.items.forEach((it) => (bySec[it.section] ||= []).push(it.txt));
+      return p.label.toUpperCase() + "\n" + Object.entries(bySec).map(([s, a]) => "  " + s + "\n" + a.map((t) => "    - " + t).join("\n")).join("\n");
+    }).join("\n\n");
+    const msg = document.getElementById("todo-copied");
+    try { await navigator.clipboard.writeText(txt); msg.textContent = "Liste copiée."; }
+    catch { msg.textContent = "Copie impossible ici, sélectionnez la liste à la main."; }
+  });
+})();
+</script>
+</body>
+</html>

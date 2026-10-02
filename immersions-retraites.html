@@ -26,7 +26,7 @@
   <link rel="preload" href="assets/fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
-  <link rel="stylesheet" href="assets/css/style.css?v=1790939541">
+  <link rel="stylesheet" href="assets/css/style.css?v=1790940107">
 </head>
 <body>
 
@@ -125,21 +125,26 @@
       <h2>Être informé·e des prochaines dates.</h2>
       <p class="lead">Les retraites ont lieu en petits groupes, dans différents endroits du monde, au fil de l'année. Les inscriptions se font sur liste d'attente.</p>
     </div>
-    <form class="form reveal" data-demo>
+    <form class="form reveal" data-form="liste-attente" novalidate>
       <div class="form-row">
-        <div class="field"><label for="wl-prenom">Prénom</label><input id="wl-prenom" type="text" required></div>
-        <div class="field"><label for="wl-email">Email</label><input id="wl-email" type="email" required></div>
+        <div class="field"><label for="wl-prenom">Prénom</label><input id="wl-prenom" name="prenom" type="text" autocomplete="given-name" required></div>
+        <div class="field"><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" autocomplete="email" required></div>
       </div>
       <div class="field">
         <label for="wl-type">Je m'intéresse à</label>
-        <select id="wl-type">
+        <select id="wl-type" name="accompagnement">
           <option>Une retraite en petit groupe</option>
           <option>Une immersion individuelle</option>
           <option>Les deux</option>
         </select>
       </div>
-      <div class="field"><label for="wl-message">Quelques mots (facultatif)</label><textarea id="wl-message"></textarea></div>
-      <div><button type="submit" class="btn">M'inscrire sur la liste d'attente <span aria-hidden="true">→</span></button></div>
+      <div class="field"><label for="wl-message">Quelques mots (facultatif)</label><textarea id="wl-message" name="message"></textarea></div>
+      <div class="hp" aria-hidden="true"><label>Ne pas remplir ce champ<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
+      <div>
+        <button type="submit" class="btn">M'inscrire sur la liste d'attente <span aria-hidden="true">→</span></button>
+        <p class="form-consent">Votre adresse sert uniquement à vous prévenir des prochaines dates. <a href="confidentialite.html">Politique de confidentialité</a>.</p>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </div>
     </form>
   </div>
 </section>
@@ -161,6 +166,6 @@
 </section>
 
 <div data-site-footer></div>
-<script src="assets/js/main.js?v=1790939541"></script>
+<script src="assets/js/main.js?v=1790940170"></script>
 </body>
 </html>

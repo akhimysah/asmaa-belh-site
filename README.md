@@ -59,4 +59,6 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 - **Images WebP** : chaque JPEG a sa version `.webp` (55 % plus légère), servie via `<picture>` avec le JPEG en secours. Pour ajouter une image, générer aussi sa version WebP.
 - **Galerie** : `assets/img/galerie/` (pleine taille + `-thumb`), visionneuse au clic (flèches, Échap, glisser sur mobile).
 - **Données structurées** (schema.org) : Personne et Site sur l'accueil, Personne sur la page Asmaa, les deux Livres sur la page Livres.
+- **Formulaires** (contact, liste d'attente, lettre) : validation en français, piège anti-robots, mention de confidentialité. Pour les rendre réels, coller l'adresse d'envoi du service choisi (Formspree, Getform, Basin…) dans `FORM_ENDPOINTS` en haut de la section formulaires de `assets/js/main.js`. Vide = mode démonstration.
+- **Suivi des contenus** : `a-fournir.html` liste automatiquement toutes les zones « À fournir » du site, avec un bouton pour copier la liste à envoyer à la cliente. Page non liée dans le menu.
 - **Originaux des visuels** : hors du site, dans `../sources-images/`.
