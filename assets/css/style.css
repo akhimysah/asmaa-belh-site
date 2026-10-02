@@ -1713,3 +1713,11 @@ body.presentation #argent .book-cover .img-ph::after { content: "Bientôt"; font
 .nojs-nav a { color: var(--blanc-80); }
 .nojs-nav .nojs-logo { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 0.12em; color: var(--or); margin-right: 1rem; }
 .nojs-foot { display: flex; gap: 1.6rem; padding: 2rem var(--gutter); border-top: 1px solid var(--line); font-size: 0.75rem; color: var(--muted); }
+
+/* Avis et presse (page Livres) */
+.review { margin: 0; display: flex; flex-direction: column; justify-content: space-between; gap: 1.2rem; }
+.review .quote { margin: 0; }
+.review figcaption { font-size: 0.9rem; color: var(--blanc-80); padding-left: 1.5rem; }
+.review figcaption strong { color: var(--blanc); font-weight: 400; }
+.review-book { display: block; margin-top: 0.3rem; font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--or); }
+.reviews-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
