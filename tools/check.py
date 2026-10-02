@@ -2,9 +2,13 @@
 """Contrôle qualité du site — lancé à chaque publication (GitHub Actions) ou à la main :
     python3 tools/check.py
 Vérifie : liens internes, ancres, images, textes alternatifs, titres et descriptions,
-versions WebP, absence de ressources externes (Google Fonts, images Amazon), JSON-LD valide."""
-import glob, json, os, re, sys
+versions WebP, absence de ressources externes (Google Fonts, images Amazon), JSON-LD valide.
+Avec --externes : vérifie aussi que les liens vers d'autres sites répondent (vidéos Dropbox,
+fiches Amazon…). Un lien disparu (404/410) est une erreur ; un refus temporaire, un avertissement."""
+import glob, json, os, re, sys, urllib.request, urllib.error
 from html.parser import HTMLParser
+
+EXTERNES = "--externes" in sys.argv
 
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 PAGES = sorted(glob.glob("*.html"))
@@ -62,6 +66,55 @@ for ref in js_refs:
 for jpg in glob.glob("assets/img/**/*.jpg", recursive=True):
     if not jpg.endswith("og-image.jpg") and not os.path.exists(jpg[:-4] + ".webp"):
         WARN.append(f"version WebP manquante pour {jpg}")
+
+# --- Liens externes (option --externes) ------------------------------------
+def verifier_externe(url):
+    """Renvoie (code, motif). Vérifie le contenu réel pour Dropbox et Amazon, qui répondent 200
+    même quand le fichier ou le produit n'existe plus."""
+    ua = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0 Safari/537.36"
+    try:
+        if "dropbox.com" in url:
+            req = urllib.request.Request(url, headers={"User-Agent": ua, "Range": "bytes=0-0"})
+            with urllib.request.urlopen(req, timeout=25) as r:
+                total = (r.headers.get("Content-Range") or "").rpartition("/")[2]
+                if r.status == 206 and total.isdigit() and int(total) > 1_000_000:
+                    return r.status, f"vidéo de {int(total) // 1_000_000} Mo"
+                return 404, "le fichier n'est plus partagé (page Dropbox à la place de la vidéo)"
+        if "amazon." in url:
+            req = urllib.request.Request(url, headers={"User-Agent": ua, "Accept-Language": "fr-FR,fr"})
+            with urllib.request.urlopen(req, timeout=25) as r:
+                page = r.read(2_500_000).decode("utf-8", "ignore")
+            if 'id="productTitle"' in page: return r.status, "fiche produit présente"
+            if "captcha" in page.lower(): return 503, "Amazon demande une vérification anti-robot"
+            return 404, "fiche produit introuvable"
+        for methode in ("HEAD", "GET"):
+            req = urllib.request.Request(url, method=methode, headers={"User-Agent": ua, "Range": "bytes=0-0"})
+            try:
+                with urllib.request.urlopen(req, timeout=25) as r:
+                    return r.status, ""
+            except urllib.error.HTTPError as e:
+                if methode == "HEAD" and e.code in (403, 405, 429, 503): continue
+                return e.code, ""
+    except urllib.error.HTTPError as e:
+        return e.code, ""
+    except Exception as e:
+        return f"injoignable ({e.__class__.__name__})", ""
+    return "injoignable", ""
+
+if EXTERNES:
+    ignores = ("akhimysah.github.io", "schema.org", "cnil.fr", "www.sitemaps.org")
+    urls = {}
+    for f in PAGES:
+        for m in re.findall(r'(?:href|src)="(https?://[^"]+)"', open(f, encoding="utf-8").read()):
+            u = m.replace("&amp;", "&")
+            if not any(i in u for i in ignores): urls.setdefault(u, set()).add(f)
+    print(f"\n{len(urls)} liens externes vérifiés")
+    for u, pages in sorted(urls.items()):
+        code, motif = verifier_externe(u)
+        court = re.sub(r"\?.*", "", u)[:80] + (f" — {motif}" if motif else "")
+        if isinstance(code, int) and code < 400: print(f"  ok {code}  {court}")
+        elif code in (404, 410): ERR.append(f"lien externe disparu ({code}) : {court} — dans {', '.join(sorted(pages))}")
+        else: WARN.append(f"lien externe à surveiller ({code}) : {court}")
 
 print(f"{len(PAGES)} pages contrôlées")
 for w in WARN: print("  attention :", w)

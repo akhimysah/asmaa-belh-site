@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    - cron: "0 7 * * 1"   # chaque lundi à 7 h (UTC) : liens externes (vidéos Dropbox, Amazon)
+  workflow_dispatch:
 
 jobs:
   verifier:
@@ -14,4 +17,8 @@ jobs:
         with:
           python-version: "3.12"
       - name: Contrôle des liens, images, ancres et métadonnées
+        if: github.event_name != 'schedule'
         run: python3 tools/check.py
+      - name: Contrôle complet, liens externes compris
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: python3 tools/check.py --externes
