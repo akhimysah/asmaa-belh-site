@@ -1751,3 +1751,18 @@ body.presentation #argent .book-cover .img-ph::after { content: "Bientôt"; font
   .todo-item textarea::placeholder { color: transparent; }
   @page { margin: 14mm; }
 }
+
+/* Repères de section (grands écrans) */
+.section-rail { position: fixed; left: clamp(0.8rem, 1.6vw, 1.8rem); top: 50%; z-index: 30; display: none; flex-direction: column; gap: 0.2rem; transform: translate(-10px, -50%); opacity: 0; pointer-events: none; transition: opacity 0.4s, transform 0.4s var(--ease); }
+.section-rail.show { opacity: 1; transform: translate(0, -50%); pointer-events: auto; }
+.section-rail a { display: flex; align-items: center; gap: 0.7rem; padding: 0.35rem 0; color: var(--muted); }
+.section-rail .sr-num { font-family: var(--font-display); font-size: 0.95rem; color: var(--or-dim); width: 1.6rem; position: relative; transition: color 0.3s; }
+.section-rail .sr-num::after { content: ""; position: absolute; left: 1.5rem; top: 50%; width: 10px; height: 1px; background: var(--or-dim); transition: width 0.4s var(--ease), background 0.3s; }
+.section-rail .sr-label { background: rgba(11,10,10,0.9); padding: 0.35em 0.7em; border: 1px solid var(--line); font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; opacity: 0; transform: translateX(-6px); transition: opacity 0.3s, transform 0.3s; white-space: nowrap; margin-left: 0.6rem; }
+.section-rail a:hover .sr-label, .section-rail a:focus-visible .sr-label { opacity: 1; transform: none; }
+.section-rail a.active .sr-num, .section-rail a:hover .sr-num { color: var(--or); }
+.section-rail a.active .sr-num::after { width: 22px; background: var(--or); }
+.section-rail a.active .sr-label { color: var(--blanc-80); }
+@media (min-width: 1380px) { .section-rail { display: flex; } }
+body.menu-open .section-rail { opacity: 0; pointer-events: none; }
+@media print { .section-rail { display: none !important; } }

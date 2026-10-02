@@ -498,7 +498,41 @@ function initPrefill() {
   document.querySelectorAll("a[data-choix]").forEach((a) => a.addEventListener("click", () => {
     const sel = document.querySelector('form[data-form="liste-attente"] select[name="accompagnement"]');
     if (sel) sel.value = a.dataset.choix;
+    const first = document.querySelector('form[data-form="liste-attente"] input[name="prenom"]');
+    if (first) setTimeout(() => first.focus({ preventScroll: true }), 700);
   }));
+}
+
+/* Repères de section sur le côté (grands écrans), construits à partir du sommaire .page-toc */
+function initSectionRail() {
+  const toc = document.querySelector(".hero .page-toc");
+  if (!toc) return;
+  const items = [...toc.querySelectorAll('a[href^="#"]')]
+    .map((a) => ({ a, target: document.getElementById(a.getAttribute("href").slice(1)) }))
+    .filter((x) => x.target && !x.target.closest("[hidden]") && !x.a.closest("[hidden]"));
+  if (items.length < 3) return;
+  const rail = document.createElement("nav");
+  rail.className = "section-rail";
+  rail.setAttribute("aria-label", "Sections de la page");
+  rail.innerHTML = items.map(({ a }) => {
+    const num = a.querySelector("span")?.textContent || "";
+    const label = a.textContent.replace(num, "").trim();
+    return `<a href="${a.getAttribute("href")}"><span class="sr-num">${num}</span><span class="sr-label">${label}</span></a>`;
+  }).join("");
+  document.body.appendChild(rail);
+  const links = [...rail.querySelectorAll("a")];
+  const hero = document.querySelector(".hero");
+  const update = () => {
+    rail.classList.toggle("show", hero.getBoundingClientRect().bottom < window.innerHeight * 0.25);
+    const line = window.innerHeight * 0.45;
+    let i = -1;
+    items.forEach((x, j) => { if (x.target.getBoundingClientRect().top <= line) i = j; });
+    links.forEach((l, j) => { l.classList.toggle("active", j === i); if (j === i) l.setAttribute("aria-current", "true"); else l.removeAttribute("aria-current"); });
+  };
+  window.addEventListener("scroll", update, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+  rail.update = update;
 }
 
 function initBackToTop() {
@@ -529,5 +563,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initForms();
   initBackToTop();
   initPrefill();
+  initSectionRail();
   applyPresentation();
 });
