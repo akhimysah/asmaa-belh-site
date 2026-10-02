@@ -10,7 +10,7 @@
   <link rel="preload" href="assets/fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
-  <link rel="stylesheet" href="assets/css/style.css?v=1790944068">
+  <link rel="stylesheet" href="assets/css/style.css?v=1790944570">
 </head>
 <body>
 
@@ -20,11 +20,21 @@
   <div class="container">
     <span class="eyebrow eyebrow-gold">Suivi du projet</span>
     <h1 class="legal-title">Contenus à fournir.</h1>
-    <p class="lead">Liste générée automatiquement à partir des zones « À fournir » de chaque page. Elle se met à jour toute seule au fil des contenus intégrés.</p>
+    <p class="lead">Chaque élément ci-dessous correspond à une zone encore vide du site. Il suffit d'écrire votre texte dans le champ prévu.</p>
+    <ol class="todo-howto">
+      <li>Écrivez vos réponses sous chaque élément, dans l'ordre que vous voulez. Elles sont <strong>enregistrées automatiquement</strong> dans ce navigateur : vous pouvez fermer la page et revenir plus tard.</li>
+      <li>Pour les photos, notez simplement le nom du fichier ou une remarque, et joignez les photos à votre message.</li>
+      <li>Quand vous voulez, cliquez sur <strong>« Télécharger mes réponses »</strong> et envoyez le fichier obtenu.</li>
+    </ol>
     <div class="todo-summary" id="todo-summary" aria-live="polite">Analyse des pages…</div>
-    <div class="btn-row">
-      <button class="btn" type="button" id="todo-copy">Copier la liste pour la cliente</button>
-      <span class="todo-copied" id="todo-copied" role="status"></span>
+    <div class="todo-toolbar" id="todo-toolbar" hidden>
+      <div class="todo-progress"><span id="todo-done">0</span> / <span id="todo-total">0</span> complétés<div class="todo-bar"><i id="todo-bar"></i></div></div>
+      <div class="todo-actions">
+        <button class="btn" type="button" id="todo-download">Télécharger mes réponses <span aria-hidden="true">↓</span></button>
+        <button class="btn btn-ghost" type="button" id="todo-copy">Copier la liste</button>
+        <button class="todo-reset" type="button" id="todo-reset">Effacer mes réponses</button>
+      </div>
+      <span class="todo-copied" id="todo-copied" role="status" aria-live="polite"></span>
     </div>
     <div id="todo-list" class="todo-list"></div>
   </div>
@@ -74,29 +84,108 @@
     } catch (e) { report.push({ label, url, items: [], error: true }); }
   }
   const list = document.getElementById("todo-list");
-  const total = report.reduce((n, p) => n + p.items.length, 0);
+  const KEY = "asmaa-contenus-v1";
+  let answers = {};
+  try { answers = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (_) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(answers)); return true; } catch (_) { return false; } };
+  const hash = (str) => { let h = 5381; for (const c of str) h = ((h << 5) + h + c.charCodeAt(0)) | 0; return "c" + (h >>> 0).toString(36); };
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/"/g, "&quot;");
+
+  const all = [];
+  report.forEach((p) => p.items.forEach((it) => { it.page = p.label; it.key = hash(p.url + "|" + it.section + "|" + it.txt); all.push(it); }));
+  const total = all.length;
   document.getElementById("todo-summary").innerHTML =
     `<strong>${total}</strong> éléments à fournir sur <strong>${report.filter((p) => p.items.length).length}</strong> pages. ` +
     `Pages complètes : ${report.filter((p) => !p.items.length && !p.error).map((p) => p.label).join(", ") || "aucune pour l'instant"}.`;
+  document.getElementById("todo-toolbar").hidden = false;
+  document.getElementById("todo-total").textContent = total;
+
+  const progress = () => {
+    const done = all.filter((it) => (answers[it.key] || "").trim()).length;
+    document.getElementById("todo-done").textContent = done;
+    document.getElementById("todo-bar").style.width = (total ? (100 * done) / total : 0) + "%";
+    document.querySelectorAll(".todo-page").forEach((box) => {
+      const items = all.filter((it) => it.page === box.dataset.page);
+      const d = items.filter((it) => (answers[it.key] || "").trim()).length;
+      box.querySelector(".todo-count").textContent = `${d} / ${items.length}`;
+      box.classList.toggle("is-complete", d === items.length);
+    });
+  };
+
+  let n = 0;
   report.forEach((p) => {
     if (!p.items.length) return;
     const bySec = {};
-    p.items.forEach((it) => (bySec[it.section] ||= []).push(it.txt));
+    p.items.forEach((it) => (bySec[it.section] ||= []).push(it));
     const box = document.createElement("article");
     box.className = "todo-page";
-    box.innerHTML = `<header><h2><a href="${p.url}">${p.label}</a></h2><span class="todo-count">${p.items.length}</span></header>` +
-      Object.entries(bySec).map(([sec, arr]) => `<div class="todo-sec"><h3>${sec}</h3><ul>${arr.map((t) => `<li>${t.replace(/</g, "&lt;")}</li>`).join("")}</ul></div>`).join("");
+    box.dataset.page = p.label;
+    box.innerHTML = `<header><h2><a href="${p.url}">${p.label}</a></h2><span class="todo-count"></span></header>` +
+      Object.entries(bySec).map(([sec, arr]) => `<div class="todo-sec"><h3>${esc(sec)}</h3>` + arr.map((it) => {
+        const id = "rep-" + (++n);
+        const visuel = /^Visuel/.test(it.txt);
+        return `<div class="todo-item${visuel ? " is-visual" : ""}">
+          <label for="${id}">${esc(it.txt)}</label>
+          <textarea id="${id}" data-key="${it.key}" rows="${visuel ? 1 : 3}" placeholder="${visuel ? "Nom du fichier de la photo, ou remarque" : "Votre texte…"}">${esc(answers[it.key] || "")}</textarea>
+        </div>`;
+      }).join("") + `</div>`).join("");
     list.appendChild(box);
   });
+  progress();
+
+  const msg = document.getElementById("todo-copied");
+  let t = null;
+  list.addEventListener("input", (e) => {
+    const ta = e.target.closest("textarea[data-key]");
+    if (!ta) return;
+    answers[ta.dataset.key] = ta.value;
+    clearTimeout(t);
+    t = setTimeout(() => { msg.textContent = save() ? "Enregistré dans ce navigateur." : "Enregistrement impossible ici : pensez à télécharger vos réponses."; progress(); }, 400);
+  });
+
+  const exportText = () => {
+    const date = new Date().toLocaleDateString("fr-FR");
+    let out = `CONTENUS POUR LE SITE — réponses du ${date}\n` + "=".repeat(48) + "\n";
+    report.forEach((p) => {
+      const items = p.items.filter((it) => (answers[it.key] || "").trim());
+      if (!items.length) return;
+      out += `\n\n${p.label.toUpperCase()}\n`;
+      let sec = null;
+      items.forEach((it) => {
+        if (it.section !== sec) { sec = it.section; out += `\n  ${sec}\n`; }
+        out += `\n    ▸ ${it.txt}\n` + answers[it.key].trim().split("\n").map((l) => "      " + l).join("\n") + "\n";
+      });
+    });
+    const left = all.filter((it) => !(answers[it.key] || "").trim());
+    if (left.length) out += `\n\n${"=".repeat(48)}\nENCORE À FOURNIR (${left.length})\n` + left.map((it) => `  - ${it.page} › ${it.section} : ${it.txt}`).join("\n") + "\n";
+    return out;
+  };
+
+  document.getElementById("todo-download").addEventListener("click", () => {
+    const blob = new Blob([exportText()], { type: "text/plain;charset=utf-8" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `contenus-site-asmaa-${new Date().toISOString().slice(0, 10)}.txt`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    msg.textContent = "Fichier téléchargé. Il ne reste qu'à l'envoyer, avec les photos en pièces jointes.";
+  });
+
   document.getElementById("todo-copy").addEventListener("click", async () => {
     const txt = "Contenus à fournir pour le site\n\n" + report.filter((p) => p.items.length).map((p) => {
       const bySec = {};
       p.items.forEach((it) => (bySec[it.section] ||= []).push(it.txt));
-      return p.label.toUpperCase() + "\n" + Object.entries(bySec).map(([s, a]) => "  " + s + "\n" + a.map((t) => "    - " + t).join("\n")).join("\n");
+      return p.label.toUpperCase() + "\n" + Object.entries(bySec).map(([s, a]) => "  " + s + "\n" + a.map((x) => "    - " + x).join("\n")).join("\n");
     }).join("\n\n");
-    const msg = document.getElementById("todo-copied");
     try { await navigator.clipboard.writeText(txt); msg.textContent = "Liste copiée."; }
     catch { msg.textContent = "Copie impossible ici, sélectionnez la liste à la main."; }
+  });
+
+  document.getElementById("todo-reset").addEventListener("click", () => {
+    if (!confirm("Effacer toutes les réponses enregistrées dans ce navigateur ? Pensez à les télécharger avant.")) return;
+    answers = {}; save();
+    list.querySelectorAll("textarea").forEach((ta) => (ta.value = ""));
+    progress(); msg.textContent = "Réponses effacées.";
   });
 })();
 </script>
