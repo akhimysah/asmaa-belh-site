@@ -1703,3 +1703,13 @@ body.presentation #argent .book-cover .img-ph::after { content: "Bientôt"; font
   .hero-page .hero-media:has(.photo-banner)::after { background: linear-gradient(180deg, rgba(11,10,10,0.55) 0%, rgba(11,10,10,0.78) 35%, rgba(11,10,10,0.9) 70%, var(--noir) 100%); }
   .hero-page .hero-media .photo-banner img { object-position: 72% 50%; }
 }
+
+/* Repère « Aller au contenu » : hors de la grille des en-têtes */
+#contenu { position: absolute; top: 0; left: 0; width: 1px; height: 1px; overflow: hidden; }
+
+/* Navigation de secours sans JavaScript (remplacée par le script) */
+.js .nojs-nav, .js .nojs-foot { display: none; }
+.nojs-nav { display: flex; flex-wrap: wrap; gap: 0.6rem 1.4rem; align-items: baseline; padding: 1.2rem var(--gutter); border-bottom: 1px solid var(--line); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; }
+.nojs-nav a { color: var(--blanc-80); }
+.nojs-nav .nojs-logo { font-family: var(--font-display); font-size: 1.3rem; letter-spacing: 0.12em; color: var(--or); margin-right: 1rem; }
+.nojs-foot { display: flex; gap: 1.6rem; padding: 2rem var(--gutter); border-top: 1px solid var(--line); font-size: 0.75rem; color: var(--muted); }
