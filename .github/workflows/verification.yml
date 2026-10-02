@@ -50,10 +50,11 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - name: Serveur local
+      - name: Serveur local avec compression (comme GitHub Pages)
         run: |
-          python3 -m http.server 8765 >/dev/null 2>&1 &
-          for i in $(seq 1 20); do curl -sf http://localhost:8765/ >/dev/null && break; sleep 0.5; done
+          npx --yes serve@14 -l 8765 --no-clipboard . >/dev/null 2>&1 &
+          for i in $(seq 1 40); do curl -sf http://localhost:8765/index.html >/dev/null && break; sleep 0.5; done
+          curl -sI -H "Accept-Encoding: gzip" http://localhost:8765/assets/css/style.css | grep -i content-encoding || echo "compression absente"
       - name: Notes performance, accessibilité, bonnes pratiques, référencement
         run: node tools/lighthouse.js
         env:
