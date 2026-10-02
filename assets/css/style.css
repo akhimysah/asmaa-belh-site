@@ -1766,3 +1766,13 @@ body.presentation #argent .book-cover .img-ph::after { content: "Bientôt"; font
 @media (min-width: 1380px) { .section-rail { display: flex; } }
 body.menu-open .section-rail { opacity: 0; pointer-events: none; }
 @media print { .section-rail { display: none !important; } }
+
+/* Vidéos : bouton de lecture et durée sur l'affiche */
+.video-frame { position: relative; }
+.video-play { position: absolute; inset: 0; margin: auto; width: 76px; height: 76px; border-radius: 50%; border: 1px solid var(--or); background: rgba(11,10,10,0.55); backdrop-filter: blur(6px); color: var(--or); display: grid; place-items: center; cursor: pointer; transition: transform 0.4s var(--ease), background 0.3s, color 0.3s; }
+.video-play svg { width: 28px; height: 28px; margin-left: 4px; }
+.video-frame:hover .video-play, .video-play:focus-visible { background: var(--or); color: #1a1408; transform: scale(1.06); }
+.video-main .video-play { width: 92px; height: 92px; }
+.video-duree { position: absolute; right: 0.8rem; bottom: 0.8rem; font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--blanc); background: rgba(11,10,10,0.7); padding: 0.35em 0.7em; border: 1px solid var(--line); }
+.video-frame.is-playing .video-play, .video-frame.is-playing .video-duree { display: none; }
+.video-frame.is-error::after { content: "Vidéo momentanément indisponible"; position: absolute; inset: auto 0 0 0; padding: 0.6rem; text-align: center; font-size: 0.75rem; color: var(--blanc-80); background: rgba(61,15,26,0.9); }

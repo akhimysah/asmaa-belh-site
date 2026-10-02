@@ -535,6 +535,39 @@ function initSectionRail() {
   rail.update = update;
 }
 
+/* Vidéos : affiche propre avec bouton de lecture doré, commandes natives après le lancement */
+function initVideos() {
+  document.querySelectorAll(".video-frame").forEach((frame) => {
+    const v = frame.querySelector("video");
+    if (!v || frame.querySelector(".video-play")) return;
+    v.controls = false;
+    const titre = frame.closest(".video-card")?.querySelector("h3")?.textContent.trim() || "la vidéo";
+    const duree = frame.querySelector(".video-duree")?.textContent.trim();
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "video-play";
+    b.setAttribute("aria-label", `Lire la vidéo : ${titre}${duree ? ", " + duree : ""}`);
+    b.innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>';
+    frame.appendChild(b);
+    b.addEventListener("click", () => {
+      document.querySelectorAll(".video-frame video").forEach((o) => { if (o !== v) o.pause(); });
+      v.controls = true;
+      frame.classList.add("is-playing");
+      const p = v.play();
+      if (p && p.catch) p.catch((e) => {
+        if (e && e.name === "NotSupportedError") frame.classList.add("is-error");
+        else if (e && e.name === "NotAllowedError") { frame.classList.remove("is-playing"); v.controls = false; }
+        // AbortError : lecture interrompue (autre vidéo lancée, pause) — pas une panne
+      });
+      v.focus();
+    });
+    v.addEventListener("play", () => frame.classList.add("is-playing"));
+    v.addEventListener("playing", () => frame.classList.remove("is-error"));
+    v.addEventListener("ended", () => { frame.classList.remove("is-playing"); v.controls = false; v.load(); });
+    v.addEventListener("error", () => { if (v.error || v.networkState === 3) frame.classList.add("is-error"); }, true);
+  });
+}
+
 function initBackToTop() {
   const btn = document.createElement("button");
   btn.className = "to-top";
@@ -564,5 +597,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initBackToTop();
   initPrefill();
   initSectionRail();
+  initVideos();
   applyPresentation();
 });
