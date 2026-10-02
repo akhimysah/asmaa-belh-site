@@ -40,3 +40,22 @@ jobs:
         run: node tools/e2e.js
         env:
           BASE: http://localhost:8765
+
+  lighthouse:
+    name: Audit Lighthouse
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Serveur local
+        run: |
+          python3 -m http.server 8765 >/dev/null 2>&1 &
+          for i in $(seq 1 20); do curl -sf http://localhost:8765/ >/dev/null && break; sleep 0.5; done
+      - name: Notes performance, accessibilité, bonnes pratiques, référencement
+        run: node tools/lighthouse.js
+        env:
+          BASE: http://localhost:8765
+          CHROME_PATH: /usr/bin/google-chrome
