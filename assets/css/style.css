@@ -1424,14 +1424,14 @@ button[disabled] { opacity: 0.6; cursor: progress; }
    ========================================================= */
 @media (prefers-reduced-motion: no-preference) {
   /* Entrée du texte d'en-tête, en cascade */
-  .hero-content > * { opacity: 0; transform: translateY(18px); transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
-  .is-loaded .hero-content > * { opacity: 1; transform: none; }
-  .is-loaded .hero-content > *:nth-child(1) { transition-delay: 0s; }
-  .is-loaded .hero-content > *:nth-child(2) { transition-delay: 0.08s; }
-  .is-loaded .hero-content > *:nth-child(3) { transition-delay: 0.16s; }
-  .is-loaded .hero-content > *:nth-child(4) { transition-delay: 0.24s; }
-  .is-loaded .hero-content > *:nth-child(5) { transition-delay: 0.32s; }
-  .is-loaded .hero-content > *:nth-child(6) { transition-delay: 0.4s; }
+  /* Animation CSS pure : démarre au premier affichage, sans attendre le script (meilleur LCP) */
+  @keyframes hero-in { from { opacity: 0.01; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+  .hero-content > * { animation: hero-in 0.7s var(--ease) both; }
+  .hero-content > *:nth-child(2) { animation-delay: 0.08s; }
+  .hero-content > *:nth-child(3) { animation-delay: 0.16s; }
+  .hero-content > *:nth-child(4) { animation-delay: 0.24s; }
+  .hero-content > *:nth-child(5) { animation-delay: 0.32s; }
+  .hero-content > *:nth-child(6) { animation-delay: 0.4s; }
   /* Zoom lent sur la photo d'en-tête */
   .hero-media .photo img { transform: scale(1.06); transition: transform 14s cubic-bezier(0.2, 0.6, 0.2, 1); }
   .is-loaded .hero-media .photo img { transform: scale(1); }
