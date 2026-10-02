@@ -1721,3 +1721,5 @@ body.presentation #argent .book-cover .img-ph::after { content: "Bientôt"; font
 .review figcaption strong { color: var(--blanc); font-weight: 400; }
 .review-book { display: block; margin-top: 0.3rem; font-size: 0.62rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--or); }
 .reviews-grid { grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.card-body .card-quote { font-family: var(--font-display); font-style: italic; font-size: 1.1rem; color: var(--or-3); margin-top: 0.4rem; }
+.card-quote span { display: block; font-family: var(--font-body); font-style: normal; font-size: 0.62rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-top: 0.2rem; }
