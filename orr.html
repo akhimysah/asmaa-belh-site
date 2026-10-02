@@ -26,7 +26,7 @@
   <link rel="preload" href="assets/fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
-  <link rel="stylesheet" href="assets/css/style.css?v=1790944866">
+  <link rel="stylesheet" href="assets/css/style.css?v=1790945755">
 </head>
 <body>
 
@@ -39,12 +39,12 @@
   <div class="container hero-content">
     <span class="eyebrow">ORR</span>
     <h1>L'univers ORR.</h1>
-    <p class="lead"><span class="ph ph-inline">Signification / promesse d'ORR en une phrase</span></p>
+    <p class="lead"><span class="ph ph-inline" data-pres="L'expérience, les rituels, la boutique.">Signification / promesse d'ORR en une phrase</span></p>
   </div>
 </section>
 
 <!-- DÉCOUVRIR L'EXPÉRIENCE -->
-<section class="section" id="experience">
+<section class="section" id="experience" data-pres-hide>
   <div class="container split">
     <div class="reveal">
       <span class="eyebrow">01 — Découvrir</span>
@@ -68,7 +68,7 @@
 </section>
 
 <!-- LES RITUELS -->
-<section class="section section-sand" id="rituels">
+<section class="section section-sand" id="rituels" data-pres-hide>
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">02 — Les rituels</span>
@@ -84,7 +84,7 @@
 </section>
 
 <!-- LA BOUTIQUE -->
-<section class="section" id="boutique">
+<section class="section" id="boutique" data-pres-hide>
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">03 — La boutique</span>
@@ -104,7 +104,18 @@
   </div>
 </section>
 
+<!-- ===== PRÉSENTATION : BIENTÔT ===== -->
+<section class="section bientot" data-pres-only hidden>
+  <div class="container narrow center">
+    <span class="eyebrow eyebrow-gold">L'univers ORR</span>
+    <h2>Ouverture <em>prochaine.</em></h2>
+    <div class="divider"></div>
+    <p class="lead">Cet espace ouvrira très prochainement. Laisse-nous ton adresse pour être parmi les premières à y entrer.</p>
+    <div class="btn-row" style="justify-content:center"><a href="contact.html" class="btn">Être prévenu·e <span aria-hidden="true">→</span></a></div>
+  </div>
+</section>
+
 <div data-site-footer></div>
-<script src="assets/js/main.js?v=1790944068"></script>
+<script src="assets/js/main.js?v=1790945755"></script>
 </body>
 </html>

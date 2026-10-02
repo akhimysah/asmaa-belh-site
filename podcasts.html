@@ -26,7 +26,7 @@
   <link rel="preload" href="assets/fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
-  <link rel="stylesheet" href="assets/css/style.css?v=1790944866">
+  <link rel="stylesheet" href="assets/css/style.css?v=1790945755">
 </head>
 <body>
 
@@ -38,13 +38,13 @@
   </div>
   <div class="container hero-content">
     <span class="eyebrow">Podcasts</span>
-    <h1><span class="ph ph-inline">Nom du podcast</span></h1>
+    <h1><span class="ph ph-inline" data-pres="Le podcast">Nom du podcast</span></h1>
     <p class="lead">La voix d'Asmaa, des conversations vraies, des clés à emporter.</p>
   </div>
 </section>
 
 <!-- PRÉSENTATION + PLATEFORMES -->
-<section class="section">
+<section data-pres-hide class="section">
   <div class="container split">
     <div class="reveal">
       <div class="img-ph ratio-square" data-label="Cover du podcast"><span>Visuel à fournir</span></div>
@@ -67,7 +67,7 @@
 </section>
 
 <!-- LECTEUR INTÉGRÉ -->
-<section class="section section-sand" id="derniers">
+<section class="section section-sand" id="derniers" data-pres-hide>
   <div class="container narrow">
     <div class="section-head center reveal">
       <span class="eyebrow">Les derniers épisodes</span>
@@ -80,7 +80,7 @@
 </section>
 
 <!-- LISTE DES ÉPISODES -->
-<section class="section" id="tous">
+<section class="section" id="tous" data-pres-hide>
   <div class="container">
     <div class="section-head reveal">
       <span class="eyebrow">Tous les podcasts</span>
@@ -107,7 +107,18 @@
   </div>
 </section>
 
+<!-- ===== PRÉSENTATION : BIENTÔT ===== -->
+<section class="section bientot" data-pres-only hidden>
+  <div class="container narrow center">
+    <span class="eyebrow eyebrow-gold">Le podcast</span>
+    <h2>Premier épisode <em>bientôt.</em></h2>
+    <div class="divider"></div>
+    <p class="lead">En attendant, découvre Asmaa sur scène et face caméra.</p>
+    <div class="btn-row" style="justify-content:center"><a href="index.html#videos" class="btn">Voir les vidéos <span aria-hidden="true">→</span></a><a href="contact.html" class="link-arrow arrow">Être prévenu·e</a></div>
+  </div>
+</section>
+
 <div data-site-footer></div>
-<script src="assets/js/main.js?v=1790944068"></script>
+<script src="assets/js/main.js?v=1790945755"></script>
 </body>
 </html>

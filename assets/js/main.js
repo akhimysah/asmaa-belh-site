@@ -426,6 +426,52 @@ function initForms() {
   });
 }
 
+/* ---------------------------------------------------------
+   MODE PRÉSENTATION : nettoyage des consignes « À fournir »
+   - [data-pres]       : texte de remplacement pour une consigne en ligne
+   - [data-pres-hide]  : bloc masqué en présentation
+   - [data-pres-only]  : bloc affiché uniquement en présentation
+   --------------------------------------------------------- */
+function applyPresentation() {
+  if (!(PRESENTATION || !SITE.brouillon)) return;
+  const hide = (el) => { if (el) { el.hidden = true; el.setAttribute("data-pres-hidden", ""); } };
+  const shown = (el) => !el.hidden && !el.closest("[data-pres-hidden]");
+  const meaningful = (el) => {
+    const c = el.cloneNode(true);
+    c.querySelectorAll(".ph-inline, .label, [data-pres-hidden], .sr-only").forEach((x) => x.remove());
+    return /[\p{L}\p{N}]/u.test(c.textContent);
+  };
+  document.querySelectorAll("[data-pres-hide]").forEach(hide);
+  document.querySelectorAll("[data-pres-only]").forEach((el) => { el.hidden = false; });
+  document.querySelectorAll(".ph-inline").forEach((el) => {
+    if (el.dataset.pres) { el.textContent = el.dataset.pres; el.classList.remove("ph", "ph-inline"); return; }
+    hide(el);
+    const box = el.parentElement.closest("li, p, dd, h1, h2, h3, figcaption, .fact, blockquote");
+    if (box && !meaningful(box)) hide(box.tagName === "DD" ? box.parentElement : box);
+  });
+  // liens sans destination : boutons -> contact, autres liens -> masqués
+  document.querySelectorAll('a[href="#"]').forEach((a) => {
+    if (a.classList.contains("btn") || a.classList.contains("link-arrow")) a.setAttribute("href", "contact.html");
+    else { hide(a); const li = a.closest("li"); if (li && !meaningful(li)) hide(li); }
+  });
+  document.querySelectorAll(".menu-social, .site-footer .footer-grid > div").forEach((box) => {
+    if (![...box.querySelectorAll("a, li")].some(shown)) hide(box);
+  });
+  document.querySelectorAll(".contact-list, .legal-list, .facts").forEach((l) => { if (![...l.children].some(shown)) hide(l); });
+  // grilles à deux colonnes dont une colonne a disparu
+  document.querySelectorAll(".masonry > .img-ph, .accomp-aside > .img-ph").forEach(hide);
+  document.querySelectorAll(".split, .accomp-layout, .prog").forEach((g) => {
+    [...g.children].filter((c) => c.classList.contains("img-ph") || (c.children.length === 1 && c.firstElementChild.classList.contains("img-ph"))).forEach(hide);
+    if ([...g.children].filter(shown).length < 2) g.classList.add("is-single");
+  });
+  // liens de sommaire vers une section masquée
+  document.querySelectorAll('.page-toc a[href^="#"], .menu-sub a').forEach((a) => {
+    const id = a.getAttribute("href").split("#")[1];
+    const target = id && a.getAttribute("href").split("#")[0] in { "": 1, [currentPage()]: 1 } && document.getElementById(id);
+    if (target && !shown(target)) hide(a.closest("li") || a);
+  });
+}
+
 function initBackToTop() {
   const btn = document.createElement("button");
   btn.className = "to-top";
@@ -453,4 +499,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initLightbox();
   initForms();
   initBackToTop();
+  applyPresentation();
 });

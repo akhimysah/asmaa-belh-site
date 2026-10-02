@@ -1683,3 +1683,12 @@ body:not(.has-banner) .site-header { top: 0; }
 @media (max-width: 760px) {
   .todo-toolbar { position: static; }
 }
+
+/* Mode présentation : blocs masqués, grilles réduites à une colonne */
+[hidden] { display: none !important; }
+.split.is-single, .accomp-layout.is-single, .prog.is-single { grid-template-columns: minmax(0, 1fr); }
+.split.is-single > *, .prog.is-single > * { max-width: 760px; }
+.bientot { min-height: 50vh; display: grid; align-items: center; background: radial-gradient(ellipse at 50% 20%, rgba(90,20,35,0.55), transparent 60%), var(--noir); }
+.bientot h2 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); }
+.bientot h2 em { color: var(--or-3); }
+body.presentation #argent .book-cover .img-ph::after { content: "Bientôt"; font-family: var(--font-display); font-style: italic; font-size: 1.8rem; letter-spacing: 0.02em; text-transform: none; color: var(--or); opacity: 1; }
