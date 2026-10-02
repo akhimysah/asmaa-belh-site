@@ -22,3 +22,21 @@ jobs:
       - name: Contrôle complet, liens externes compris
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: python3 tools/check.py --externes
+
+  tests:
+    name: Tests de bout en bout (Chrome)
+    runs-on: ubuntu-latest
+    if: github.event_name != 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Serveur local
+        run: |
+          python3 -m http.server 8765 >/dev/null 2>&1 &
+          for i in $(seq 1 20); do curl -sf http://localhost:8765/ >/dev/null && break; sleep 0.5; done
+      - name: Menu, formulaires, galerie, présentation, mobile…
+        run: node tools/e2e.js
+        env:
+          BASE: http://localhost:8765
