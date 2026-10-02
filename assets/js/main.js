@@ -3,6 +3,28 @@
    Arborescence (réf. maquette menu)
    ========================================================= */
 
+/* ---------------------------------------------------------
+   ÉTAT DU SITE
+   brouillon: true  -> bandeau « version de travail » + repères « À fournir »
+   Passé à false par tools/mise-en-ligne.py au moment du lancement.
+   --------------------------------------------------------- */
+const SITE = { brouillon: true };
+
+/* Mode présentation : ouvrir le site avec ?presentation pour le montrer
+   sans bandeau ni consignes ; ?presentation=0 pour revenir au mode travail. */
+function presentationMode() {
+  const KEY = "asmaa-presentation";
+  const q = new URLSearchParams(location.search);
+  try {
+    if (q.has("presentation")) localStorage.setItem(KEY, q.get("presentation") === "0" ? "0" : "1");
+    return localStorage.getItem(KEY) === "1";
+  } catch (_) {
+    return q.has("presentation") && q.get("presentation") !== "0";
+  }
+}
+const PRESENTATION = SITE.brouillon && presentationMode();
+const SHOW_DRAFT_UI = SITE.brouillon && !PRESENTATION;
+
 const MENU = [
   { num: "01", label: "Accueil", href: "index.html" },
   {
@@ -78,7 +100,7 @@ function renderHeader() {
 
   el.innerHTML = `
     <a class="skip-link" href="#contenu">Aller au contenu</a>
-    <div class="wip-banner">Squelette de site — version de travail, contenus à compléter</div>
+    ${SHOW_DRAFT_UI ? '<div class="wip-banner">Squelette de site — version de travail, contenus à compléter</div>' : ""}
     <header class="site-header">
       <div class="container">
         <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute • Autrice • Entrepreneure • Créatrice de l'univers ORR</small></a>
@@ -127,7 +149,8 @@ function renderHeader() {
       </div>
     </div>`;
 
-  document.body.classList.add("has-banner");
+  if (SHOW_DRAFT_UI) document.body.classList.add("has-banner");
+  if (PRESENTATION) document.body.classList.add("presentation", "hide-ph");
   const firstSection = document.querySelector("body > section");
   if (firstSection && !document.getElementById("contenu")) {
     const anchor = document.createElement("span");
@@ -137,7 +160,7 @@ function renderHeader() {
 
   const banner = el.querySelector(".wip-banner");
   const setBannerH = () =>
-    document.documentElement.style.setProperty("--banner-h", banner.offsetHeight + "px");
+    document.documentElement.style.setProperty("--banner-h", (banner ? banner.offsetHeight : 0) + "px");
   setBannerH();
   window.addEventListener("resize", setBannerH);
 
@@ -229,6 +252,7 @@ function initReveal() {
 }
 
 function initPlaceholderToggle() {
+  if (!SHOW_DRAFT_UI) { if (!SITE.brouillon) document.body.classList.add("hide-ph"); return; }
   const btn = document.createElement("button");
   btn.className = "ph-toggle";
   const KEY = "asmaa-hide-ph";

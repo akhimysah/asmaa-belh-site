@@ -847,3 +847,9 @@ body.menu-open .to-top { opacity: 0; visibility: hidden; }
 .univers-card > .univers-photo { position: absolute; inset: 0; z-index: 0; }
 .univers-books { align-items: flex-start; padding: 10% 0 0; } .univers-books img { width: 34%; }
 .univers-books img { width: 30%; }
+
+/* ---------- Mode présentation (?presentation) et site en ligne ---------- */
+body.presentation .ph:not(.ph-inline), body.presentation .video-note { display: none; }
+body.presentation .ph.ph-inline { border: 0; padding: 0; background: none; }
+body.presentation .img-ph::after { content: ""; }
+body:not(.has-banner) .site-header { top: 0; }
