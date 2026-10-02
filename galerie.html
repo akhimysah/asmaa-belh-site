@@ -26,7 +26,7 @@
   <link rel="preload" href="assets/fonts/cormorant-garamond-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
-  <link rel="stylesheet" href="assets/css/style.css?v=1790939170">
+  <link rel="stylesheet" href="assets/css/style.css?v=1790939541">
 </head>
 <body>
 
@@ -37,37 +37,96 @@
     <div class="section-head reveal">
       <span class="eyebrow">Galerie</span>
       <h1 style="font-size:clamp(2.4rem,5vw,4rem)">Instants, lieux, visages.</h1>
-      <p class="lead">Photos des retraites, portraits, coulisses, événements. Filtrables par thème.</p>
+      <p class="lead">La scène, le public, les coulisses. Et bientôt les retraites.</p>
     </div>
 
-    <div class="filters reveal">
-      <button class="active" data-filter="all">Tout</button>
-      <button data-filter="retraites">Retraites</button>
-      <button data-filter="portraits">Portraits</button>
-      <button data-filter="coulisses">Coulisses</button>
-      <button data-filter="evenements">Événements</button>
+    <div class="filters reveal" role="group" aria-label="Filtrer la galerie">
+      <button class="active" data-filter="all" aria-pressed="true">Tout</button>
+      <button data-filter="scene" aria-pressed="false">Scène</button>
+      <button data-filter="public" aria-pressed="false">Public</button>
+      <button data-filter="coulisses" aria-pressed="false">Coulisses</button>
+      <button data-filter="retraites" aria-pressed="false">Retraites</button>
+      <button data-filter="portraits" aria-pressed="false">Portraits</button>
     </div>
 
     <div class="masonry">
-      <div class="img-ph ratio-portrait reveal" data-cat="retraites" data-label="Retraite"><span>Photo</span></div>
-      <div class="img-ph ratio-square reveal" data-cat="portraits" data-label="Portrait"><span>Photo</span></div>
-      <div class="img-ph ratio-wide reveal" data-cat="coulisses" data-label="Coulisses"><span>Photo</span></div>
-      <div class="img-ph ratio-tall reveal" data-cat="evenements" data-label="Événement"><span>Photo</span></div>
-      <div class="img-ph ratio-square reveal" data-cat="retraites" data-label="Retraite"><span>Photo</span></div>
-      <div class="img-ph ratio-portrait reveal" data-cat="portraits" data-label="Portrait"><span>Photo</span></div>
-      <div class="img-ph ratio-wide reveal" data-cat="retraites" data-label="Retraite"><span>Photo</span></div>
-      <div class="img-ph ratio-square reveal" data-cat="coulisses" data-label="Coulisses"><span>Photo</span></div>
-      <div class="img-ph ratio-tall reveal" data-cat="evenements" data-label="Événement"><span>Photo</span></div>
-      <div class="img-ph ratio-portrait reveal" data-cat="retraites" data-label="Retraite"><span>Photo</span></div>
-      <div class="img-ph ratio-square reveal" data-cat="portraits" data-label="Portrait"><span>Photo</span></div>
-      <div class="img-ph ratio-wide reveal" data-cat="evenements" data-label="Événement"><span>Photo</span></div>
+      <figure class="g-item reveal" data-cat="scene">
+        <button class="g-open" type="button" data-full="assets/img/galerie/scene-chanteuse.webp" data-caption="Sur scène, la voix" aria-label="Agrandir : Sur scène, la voix">
+          <picture><source srcset="assets/img/galerie/scene-chanteuse-thumb.webp" type="image/webp"><img src="assets/img/galerie/scene-chanteuse-thumb.jpg" alt="Sur scène, la voix" width="900" height="506" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Sur scène, la voix</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="public">
+        <button class="g-open" type="button" data-full="assets/img/galerie/apollo-theatre.webp" data-caption="Apollo Théâtre, Paris" aria-label="Agrandir : Apollo Théâtre, Paris">
+          <picture><source srcset="assets/img/galerie/apollo-theatre-thumb.webp" type="image/webp"><img src="assets/img/galerie/apollo-theatre-thumb.jpg" alt="Apollo Théâtre, Paris" width="900" height="383" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Apollo Théâtre, Paris</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="scene">
+        <button class="g-open" type="button" data-full="assets/img/galerie/scene-micro-1.webp" data-caption="Happiness Fighter Show #3, prise de parole" aria-label="Agrandir : Happiness Fighter Show #3, prise de parole">
+          <picture><source srcset="assets/img/galerie/scene-micro-1-thumb.webp" type="image/webp"><img src="assets/img/galerie/scene-micro-1-thumb.jpg" alt="Happiness Fighter Show #3, prise de parole" width="900" height="377" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Happiness Fighter Show #3, prise de parole</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="coulisses">
+        <button class="g-open" type="button" data-full="assets/img/galerie/coulisses-escalier.webp" data-caption="Avant d'entrer en scène" aria-label="Agrandir : Avant d'entrer en scène">
+          <picture><source srcset="assets/img/galerie/coulisses-escalier-thumb.webp" type="image/webp"><img src="assets/img/galerie/coulisses-escalier-thumb.jpg" alt="Avant d'entrer en scène" width="900" height="506" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Avant d'entrer en scène</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="scene">
+        <button class="g-open" type="button" data-full="assets/img/galerie/scene-la-decision.webp" data-caption="« La décision », sur scène" aria-label="Agrandir : « La décision », sur scène">
+          <picture><source srcset="assets/img/galerie/scene-la-decision-thumb.webp" type="image/webp"><img src="assets/img/galerie/scene-la-decision-thumb.jpg" alt="« La décision », sur scène" width="900" height="506" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>« La décision », sur scène</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="public">
+        <button class="g-open" type="button" data-full="assets/img/galerie/public-apollo.webp" data-caption="Le public de l'Apollo Théâtre" aria-label="Agrandir : Le public de l'Apollo Théâtre">
+          <picture><source srcset="assets/img/galerie/public-apollo-thumb.webp" type="image/webp"><img src="assets/img/galerie/public-apollo-thumb.jpg" alt="Le public de l'Apollo Théâtre" width="900" height="398" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Le public de l'Apollo Théâtre</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="scene">
+        <button class="g-open" type="button" data-full="assets/img/galerie/scene-danse.webp" data-caption="Sur scène, le mouvement" aria-label="Agrandir : Sur scène, le mouvement">
+          <picture><source srcset="assets/img/galerie/scene-danse-thumb.webp" type="image/webp"><img src="assets/img/galerie/scene-danse-thumb.jpg" alt="Sur scène, le mouvement" width="900" height="492" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Sur scène, le mouvement</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="coulisses">
+        <button class="g-open" type="button" data-full="assets/img/galerie/coulisses-etreinte.webp" data-caption="Après le spectacle" aria-label="Agrandir : Après le spectacle">
+          <picture><source srcset="assets/img/galerie/coulisses-etreinte-thumb.webp" type="image/webp"><img src="assets/img/galerie/coulisses-etreinte-thumb.jpg" alt="Après le spectacle" width="900" height="384" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Après le spectacle</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="scene">
+        <button class="g-open" type="button" data-full="assets/img/galerie/scene-micro-2.webp" data-caption="Happiness Fighter Show #3, témoignage" aria-label="Agrandir : Happiness Fighter Show #3, témoignage">
+          <picture><source srcset="assets/img/galerie/scene-micro-2-thumb.webp" type="image/webp"><img src="assets/img/galerie/scene-micro-2-thumb.jpg" alt="Happiness Fighter Show #3, témoignage" width="900" height="383" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Happiness Fighter Show #3, témoignage</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="public">
+        <button class="g-open" type="button" data-full="assets/img/galerie/public-rue.webp" data-caption="À la sortie du théâtre" aria-label="Agrandir : À la sortie du théâtre">
+          <picture><source srcset="assets/img/galerie/public-rue-thumb.webp" type="image/webp"><img src="assets/img/galerie/public-rue-thumb.jpg" alt="À la sortie du théâtre" width="900" height="506" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>À la sortie du théâtre</figcaption>
+      </figure>
+      <figure class="g-item reveal" data-cat="scene">
+        <button class="g-open" type="button" data-full="assets/img/galerie/scene-micro-3.webp" data-caption="Happiness Fighter Show #3, au micro" aria-label="Agrandir : Happiness Fighter Show #3, au micro">
+          <picture><source srcset="assets/img/galerie/scene-micro-3-thumb.webp" type="image/webp"><img src="assets/img/galerie/scene-micro-3-thumb.jpg" alt="Happiness Fighter Show #3, au micro" width="900" height="383" loading="lazy" decoding="async"></picture>
+        </button>
+        <figcaption>Happiness Fighter Show #3, au micro</figcaption>
+      </figure>
+      <div class="img-ph ratio-portrait reveal" data-cat="retraites" data-label="Retraite — photo à fournir"><span>Photo</span></div>
+      <div class="img-ph ratio-portrait reveal" data-cat="portraits" data-label="Portrait d'Asmaa — photo à fournir"><span>Photo</span></div>
+      <div class="img-ph ratio-wide reveal" data-cat="retraites" data-label="Retraite — photo à fournir"><span>Photo</span></div>
+      <div class="img-ph ratio-square reveal" data-cat="portraits" data-label="Portrait d'Asmaa — photo à fournir"><span>Photo</span></div>
     </div>
 
-    <div class="ph mt-4 reveal">Photos à fournir en haute définition (format paysage et portrait). Les catégories de filtres sont indicatives et ajustables.</div>
+    <div class="ph mt-4 reveal">Images extraites des vidéos du spectacle. À compléter avec les photos des retraites et les portraits professionnels d'Asmaa, en haute définition.</div>
   </div>
 </section>
 
 <div data-site-footer></div>
-<script src="assets/js/main.js?v=1790939170"></script>
+<script src="assets/js/main.js?v=1790939541"></script>
 </body>
 </html>

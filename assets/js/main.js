@@ -123,7 +123,7 @@ function renderHeader() {
         </div>
       </div>
       <div class="menu-visual">
-        <div class="photo" data-missing="Photo du menu — assets/img/menu-arch.jpg"><img src="assets/img/menu-arch.jpg" alt="" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('missing')"></div>
+        <div class="photo" data-missing="Photo du menu — assets/img/menu-arch.jpg"><picture><source srcset="assets/img/menu-arch.webp" type="image/webp"><img src="assets/img/menu-arch.jpg" alt="" loading="lazy" decoding="async" onerror="this.closest('.photo').classList.add('missing')"></picture></div>
       </div>
     </div>`;
 
@@ -190,21 +190,21 @@ function renderFooter() {
             <p style="margin-top:1.2rem;max-width:320px">Quand une femme se réaligne, tout son monde change.</p>
           </div>
           <div>
-            <h4>Explorer</h4>
+            <h2 class="f-title">Explorer</h2>
             <ul>
               ${MENU.map((m) => `<li><a href="${m.href}">${m.label}</a></li>`).join("")}
               <li><a href="contact.html">Contact</a></li>
             </ul>
           </div>
           <div>
-            <h4>Suivre</h4>
+            <h2 class="f-title">Suivre</h2>
             <ul>
               ${SOCIAL.map((s) => `<li><a href="${s.href}">${s.label} <span class="ph ph-inline">lien</span></a></li>`).join("")}
               <li><a href="#">TikTok <span class="ph ph-inline">lien</span></a></li>
             </ul>
           </div>
           <div>
-            <h4>Contact</h4>
+            <h2 class="f-title">Contact</h2>
             <ul>
               <li><span class="ph ph-inline">email@…</span></li>
               <li><span class="ph ph-inline">téléphone (si souhaité)</span></li>
@@ -253,11 +253,68 @@ function initGalleryFilters() {
   filters.addEventListener("click", (e) => {
     const b = e.target.closest("button");
     if (!b) return;
-    filters.querySelectorAll("button").forEach((x) => x.classList.remove("active"));
+    filters.querySelectorAll("button").forEach((x) => { x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
     b.classList.add("active");
+    b.setAttribute("aria-pressed", "true");
     const cat = b.dataset.filter;
     items.forEach((it) => { it.style.display = cat === "all" || it.dataset.cat === cat ? "" : "none"; });
   });
+}
+
+function initLightbox() {
+  const triggers = () => [...document.querySelectorAll(".g-open")].filter((b) => b.closest(".g-item").style.display !== "none");
+  if (!document.querySelector(".g-open")) return;
+  const box = document.createElement("div");
+  box.className = "lightbox";
+  box.setAttribute("role", "dialog");
+  box.setAttribute("aria-modal", "true");
+  box.setAttribute("aria-label", "Visionneuse");
+  box.inert = true;
+  box.innerHTML = `
+    <button class="lb-close" type="button" aria-label="Fermer">✕</button>
+    <button class="lb-prev" type="button" aria-label="Image précédente">←</button>
+    <figure><img alt=""><figcaption></figcaption></figure>
+    <button class="lb-next" type="button" aria-label="Image suivante">→</button>
+    <span class="lb-count" aria-live="polite"></span>`;
+  document.body.appendChild(box);
+  const img = box.querySelector("img"), cap = box.querySelector("figcaption"), count = box.querySelector(".lb-count");
+  let list = [], i = 0, opener = null;
+  const show = (n) => {
+    i = (n + list.length) % list.length;
+    const t = list[i];
+    img.src = t.dataset.full; img.alt = t.dataset.caption;
+    cap.textContent = t.dataset.caption;
+    count.textContent = `${i + 1} / ${list.length}`;
+  };
+  const open = (t) => {
+    list = triggers(); opener = t;
+    show(list.indexOf(t));
+    box.inert = false; box.classList.add("open"); document.body.classList.add("menu-open");
+    requestAnimationFrame(() => requestAnimationFrame(() => box.querySelector(".lb-close").focus()));
+  };
+  const close = () => {
+    box.classList.remove("open"); box.inert = true; document.body.classList.remove("menu-open");
+    if (opener) opener.focus();
+  };
+  document.addEventListener("click", (e) => { const t = e.target.closest(".g-open"); if (t) open(t); });
+  box.querySelector(".lb-close").addEventListener("click", close);
+  box.querySelector(".lb-prev").addEventListener("click", () => show(i - 1));
+  box.querySelector(".lb-next").addEventListener("click", () => show(i + 1));
+  box.addEventListener("click", (e) => { if (e.target === box) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (!box.classList.contains("open")) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") show(i - 1);
+    if (e.key === "ArrowRight") show(i + 1);
+    if (e.key === "Tab") {
+      const f = [...box.querySelectorAll("button")];
+      if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
+    }
+  });
+  let x0 = null;
+  box.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  box.addEventListener("touchend", (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
 }
 
 function initForms() {
@@ -275,5 +332,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initReveal();
   initPlaceholderToggle();
   initGalleryFilters();
+  initLightbox();
   initForms();
 });

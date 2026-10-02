@@ -36,7 +36,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 
 **Livres** : couverture HD, résumé, extrait, liens d'achat, avis, pour chaque livre (dont le titre exact de l'ouvrage autour de l'argent).
 
-**Galerie** : photos HD (paysage + portrait), catégories souhaitées.
+**Galerie** : 11 images extraites des vidéos (scène, public, coulisses) avec visionneuse. Reste : photos des retraites et portraits.
 
 **Contact** : email, téléphone (si souhaité), Instagram, YouTube, Spotify, TikTok, autres.
 
@@ -56,4 +56,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 - **Accessibilité** : lien « Aller au contenu », page active signalée, menu utilisable au clavier (focus piégé, Échap pour fermer), animations coupées si l'utilisateur les désactive.
 - **Brouillon non indexé** : `noindex` sur toutes les pages et `robots.txt`. À retirer à la mise en production.
 - **Couvertures de livres** : copies locales dans `assets/img/livre-*.jpg` (plus d'appel aux images Amazon).
+- **Images WebP** : chaque JPEG a sa version `.webp` (55 % plus légère), servie via `<picture>` avec le JPEG en secours. Pour ajouter une image, générer aussi sa version WebP.
+- **Galerie** : `assets/img/galerie/` (pleine taille + `-thumb`), visionneuse au clic (flèches, Échap, glisser sur mobile).
+- **Données structurées** (schema.org) : Personne et Site sur l'accueil, Personne sur la page Asmaa, les deux Livres sur la page Livres.
 - **Originaux des visuels** : hors du site, dans `../sources-images/`.
