@@ -24,7 +24,7 @@ for (const forme of ["mobile", "desktop"]) {
     catch (e) { echecs.push(`${p} (${forme}) : audit impossible`); continue; }
     const r = JSON.parse(fs.readFileSync(sortie, "utf8"));
     const s = Object.fromEntries(Object.entries(r.categories).map(([k, v]) => [k, Math.round(v.score * 100)]));
-    lignes.push({ page: p, forme, ...s, lcp: r.audits["largest-contentful-paint"]?.displayValue, cls: r.audits["cumulative-layout-shift"]?.displayValue });
+    lignes.push({ page: p, forme, ...s, lcp: r.audits["largest-contentful-paint"]?.displayValue, lcpEl: (r.audits["largest-contentful-paint-element"]?.details?.items?.[0]?.items?.[0]?.node?.nodeLabel || "").slice(0, 40), lcpPhases: (r.audits["largest-contentful-paint-element"]?.details?.items?.[1]?.items || []).map((x) => `${x.phase}: ${Math.round(x.timing)} ms`).join(", "), cls: r.audits["cumulative-layout-shift"]?.displayValue });
     for (const [k, min] of Object.entries(SEUILS)) if (s[k] < min) echecs.push(`${p} (${forme}) : ${NOMS[k]} ${s[k]} < ${min}`);
     for (const cat of ["accessibility", "best-practices", "seo"]) {
       for (const ref of r.categories[cat].auditRefs) {
@@ -38,11 +38,12 @@ for (const forme of ["mobile", "desktop"]) {
   }
 }
 
-const tableau = ["| Page | Écran | Performance | Accessibilité | Bonnes pratiques | Référencement | Affichage principal (LCP) | Stabilité (CLS) |",
-  "|---|---|---|---|---|---|---|---|",
-  ...lignes.map((l) => `| ${l.page} | ${l.forme} | ${l.performance} | ${l.accessibility} | ${l["best-practices"]} | ${l.seo} | ${l.lcp || "-"} | ${l.cls || "-"} |`)].join("\n");
+const tableau = ["| Page | Écran | Performance | Accessibilité | Bonnes pratiques | Référencement | Affichage principal (LCP) | Élément | Stabilité (CLS) |",
+  "|---|---|---|---|---|---|---|---|---|",
+  ...lignes.map((l) => `| ${l.page} | ${l.forme} | ${l.performance} | ${l.accessibility} | ${l["best-practices"]} | ${l.seo} | ${l.lcp || "-"} | ${l.lcpEl || "-"} | ${l.cls || "-"} |`)].join("\n");
 const notes = [...remarques].map(([k, v]) => `- ${k} (${[...v].join(", ")})`).join("\n");
-const resume = `## Audit Lighthouse\n\n${tableau}\n\n${notes ? "### Points relevés\n\n" + notes + "\n" : "Aucun point relevé hors performance.\n"}\n${echecs.length ? "### Seuils non atteints\n\n" + echecs.map((e) => "- " + e).join("\n") : "Tous les seuils sont atteints."}\n`;
+const phases = lignes.filter((l) => l.forme === "mobile" && l.lcpPhases).map((l) => `- ${l.page} : ${l.lcpPhases}`).join("\n");
+const resume = `## Audit Lighthouse\n\n${tableau}\n\n${phases ? "### Décomposition du LCP (mobile)\n\n" + phases + "\n\n" : ""}${notes ? "### Points relevés\n\n" + notes + "\n" : "Aucun point relevé hors performance.\n"}\n${echecs.length ? "### Seuils non atteints\n\n" + echecs.map((e) => "- " + e).join("\n") : "Tous les seuils sont atteints."}\n`;
 console.log(resume);
 if (process.env.GITHUB_STEP_SUMMARY) fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, resume);
 process.exit(echecs.length ? 1 : 0);
