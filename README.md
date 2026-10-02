@@ -45,7 +45,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 - Direction validée : **à l'identique des visuels de campagne** (noir, marbre, or). Les 3 pistes claires restent consultables dans `directions.html`.
 - Couleurs : noir `#0b0a0a`, bordeaux `#3d0f1a`, or `#d4b46a` (dégradé or pour le logo, le titre et les boutons), ivoire `#f5efe4`.
 - Photos : dans `assets/img/`. Les affiches sources (1024 px) ont été agrandies x4 par IA (Real-ESRGAN, script dans le scratchpad de session) avant recadrage ; pour un rendu optimal, remplacer par les exports HD dès réception.
-- Typographies : Cormorant Garamond (titres), Jost (texte). Chargées depuis Google Fonts.
+- Typographies : Cormorant Garamond (titres), Playfair Display (titre d'accueil), Jost (texte). Hébergées sur le site dans `assets/fonts/` (licence SIL OFL), déclarées dans `assets/css/fonts.css`.
 - Tout est ajustable dans les variables en tête de `assets/css/style.css`.
 
 ## Technique
@@ -55,4 +55,5 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 - **Pages ajoutées** : `mentions-legales.html`, `confidentialite.html` (champs légaux à compléter), `404.html`.
 - **Accessibilité** : lien « Aller au contenu », page active signalée, menu utilisable au clavier (focus piégé, Échap pour fermer), animations coupées si l'utilisateur les désactive.
 - **Brouillon non indexé** : `noindex` sur toutes les pages et `robots.txt`. À retirer à la mise en production.
+- **Couvertures de livres** : copies locales dans `assets/img/livre-*.jpg` (plus d'appel aux images Amazon).
 - **Originaux des visuels** : hors du site, dans `../sources-images/`.

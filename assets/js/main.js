@@ -123,7 +123,7 @@ function renderHeader() {
         </div>
       </div>
       <div class="menu-visual">
-        <div class="photo" data-missing="Photo du menu — assets/img/menu-arch.jpg"><img src="assets/img/menu-arch.jpg" alt="" onerror="this.parentNode.classList.add('missing')"></div>
+        <div class="photo" data-missing="Photo du menu — assets/img/menu-arch.jpg"><img src="assets/img/menu-arch.jpg" alt="" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('missing')"></div>
       </div>
     </div>`;
 
