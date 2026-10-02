@@ -24,9 +24,9 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 
 ## Checklist des contenus à recevoir
 
-**Asmaa** : biographie, parcours (frise), approche (3 piliers), formations/certifications, méthodes (texte par pratique), photos pro.
+**Asmaa** : textes reçus et intégrés (biographie, approche, méthodes & pratiques, venir comme vous êtes). Reste : photos professionnelles.
 
-**Immersions & Retraites** : texte de présentation, puis pour chaque retraite : nom, dates, lieu, programme, tarifs, inclus, modalités d'inscription, photos/vidéos, témoignages.
+**Immersions & Retraites** : textes Retraites et Immersions reçus et intégrés. Reste : photos des lieux, dates des prochaines retraites, tarifs éventuels, outil de liste d'attente.
 
 **Programmes** : pour chacun des 4 programmes : présentation, format, durée, tarif, lien d'inscription, visuel.
 

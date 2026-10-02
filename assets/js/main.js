@@ -8,10 +8,10 @@ const MENU = [
   {
     num: "02", label: "Asmaa", href: "asmaa.html",
     sub: [
-      { label: "Qui est Asmaa ?", href: "asmaa.html#qui" },
-      { label: "Son parcours", href: "asmaa.html#parcours" },
-      { label: "Son approche", href: "asmaa.html#approche" },
-      { label: "Ses formations et pratiques", href: "asmaa.html#formations" },
+      { label: "Biographie", href: "asmaa.html#biographie" },
+      { label: "Approche", href: "asmaa.html#approche" },
+      { label: "Méthodes & pratiques", href: "asmaa.html#methodes" },
+      { label: "Photos professionnelles", href: "asmaa.html#photos" },
     ],
   },
   {
@@ -23,7 +23,13 @@ const MENU = [
       { label: "Comprendre ma femme", href: "programmes.html#comprendre-ma-femme" },
     ],
   },
-  { num: "04", label: "Immersions & Retraites", short: "Retraites", href: "immersions-retraites.html" },
+  {
+    num: "04", label: "Immersions & Retraites", short: "Retraites", href: "immersions-retraites.html",
+    sub: [
+      { label: "Les retraites", href: "immersions-retraites.html#retraites" },
+      { label: "Les immersions", href: "immersions-retraites.html#immersions" },
+    ],
+  },
   {
     num: "05", label: "ORR", href: "orr.html",
     sub: [
