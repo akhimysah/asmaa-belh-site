@@ -451,7 +451,8 @@ function applyPresentation() {
   });
   // liens sans destination : boutons -> contact, autres liens -> masqués
   document.querySelectorAll('a[href="#"]').forEach((a) => {
-    if (a.classList.contains("btn") || a.classList.contains("link-arrow")) a.setAttribute("href", "contact.html");
+    if (a.classList.contains("btn") || a.classList.contains("link-arrow")) a.setAttribute("href", "contact.html" + (a.dataset.contact ? "?" + a.dataset.contact : ""));
+      if (a.dataset.presLabel) a.innerHTML = a.dataset.presLabel + ' <span aria-hidden="true">→</span>';
     else { hide(a); const li = a.closest("li"); if (li && !meaningful(li)) hide(li); }
   });
   document.querySelectorAll(".menu-social, .site-footer .footer-grid > div").forEach((box) => {
@@ -470,6 +471,34 @@ function applyPresentation() {
     const target = id && a.getAttribute("href").split("#")[0] in { "": 1, [currentPage()]: 1 } && document.getElementById(id);
     if (target && !shown(target)) hide(a.closest("li") || a);
   });
+}
+
+/* Formulaires préréglés : contact.html?sujet=programme&programme=cartographie,
+   boutons [data-choix] vers la liste d'attente */
+const PROGRAMMES = {
+  "sexy-et-sacree": "Sexy & Sacrée",
+  "cartographie": "Cartographie",
+  "conversation-difficile": "Avoir une conversation difficile",
+  "comprendre-ma-femme": "Comprendre ma femme",
+};
+function initPrefill() {
+  const q = new URLSearchParams(location.search);
+  const sujet = document.querySelector('form[data-form="contact"] select[name="sujet"]');
+  if (sujet && q.get("sujet") && [...sujet.options].some((o) => o.value === q.get("sujet"))) {
+    sujet.value = q.get("sujet");
+    const msg = document.querySelector('form[data-form="contact"] textarea[name="message"]');
+    const prog = PROGRAMMES[q.get("programme")];
+    const intro = {
+      programme: prog ? `Bonjour Asmaa, j'aimerais en savoir plus sur le programme « ${prog} ».` : "Bonjour Asmaa, j'aimerais en savoir plus sur vos programmes.",
+      orr: "Bonjour, j'aimerais être prévenu·e de l'ouverture de l'univers ORR.",
+      podcast: "Bonjour, j'aimerais être prévenu·e de la sortie des épisodes du podcast.",
+    }[sujet.value];
+    if (msg && !msg.value && intro) msg.value = intro + "\n\n";
+  }
+  document.querySelectorAll("a[data-choix]").forEach((a) => a.addEventListener("click", () => {
+    const sel = document.querySelector('form[data-form="liste-attente"] select[name="accompagnement"]');
+    if (sel) sel.value = a.dataset.choix;
+  }));
 }
 
 function initBackToTop() {
@@ -499,5 +528,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initLightbox();
   initForms();
   initBackToTop();
+  initPrefill();
   applyPresentation();
 });
