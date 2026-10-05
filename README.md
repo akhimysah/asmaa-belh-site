@@ -10,7 +10,7 @@ Site statique (HTML / CSS / JS, sans dépendance ni build). Ouvrir `index.html` 
 | Asmaa | `asmaa.html` | Qui est Asmaa (#qui) · Son parcours (#parcours) · Son approche (#approche) · Formations et pratiques (#formations) |
 | Programmes | `programmes.html` | Sexy & Sacrée · Cartographie · Avoir une conversation difficile · Comprendre ma femme |
 | Immersions & Retraites | `immersions-retraites.html` | Présentation · Dates · Lieux · Programme · Tarifs · Inclus · Inscription · Photos/vidéos |
-| ORR | `orr.html` | Découvrir l'expérience (#experience) · Les rituels (#rituels) · La boutique (#boutique) |
+| ORR | `orr.html` | Simple renvoi vers le site ORR : renseigner `ORR_URL` dans `assets/js/main.js` et tous les liens « ORR » ouvrent ce site |
 | Podcasts | `podcasts.html` | Les derniers épisodes (#derniers) · Tous les podcasts (#tous) |
 | Livres | `livres.html` | Sexy & Sacrée · Love Programme · L'ouvrage autour de l'argent (#argent) · Tous les livres |
 | Galerie | `galerie.html` | Grille filtrable de photos |
@@ -30,7 +30,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 
 **Programmes** : pour chacun des 4 programmes : présentation, format, durée, tarif, lien d'inscription, visuel.
 
-**ORR** : signification, présentation de l'expérience, liste des rituels, produits de la boutique, liens (site + boutique), visuels.
+**ORR** : uniquement l'adresse du site ORR.
 
 **Podcasts** : nom, présentation, cover, liens plateformes (Spotify, Apple, YouTube…), lien du dernier épisode à intégrer.
 

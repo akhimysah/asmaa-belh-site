@@ -3,12 +3,26 @@
    Arborescence (réf. maquette menu)
    ========================================================= */
 
+/* Liens « ORR » : vers le site ORR quand son adresse est connue. */
+function initOrrLink() {
+  if (!ORR_URL) return;
+  if (/(^|\/)orr\.html$/.test(location.pathname)) { location.replace(ORR_URL); return; }
+  document.querySelectorAll('a[href^="orr.html"]').forEach((a) => {
+    a.href = ORR_URL; a.target = "_blank"; a.rel = "noopener";
+  });
+}
+
 /* ---------------------------------------------------------
    ÉTAT DU SITE
    brouillon: true  -> bandeau « version de travail » + repères « À fournir »
    Passé à false par tools/mise-en-ligne.py au moment du lancement.
    --------------------------------------------------------- */
 const SITE = { brouillon: true };
+
+/* Adresse du site ORR (le deuxième site d'Asmaa). Tant qu'elle est vide, « ORR » mène
+   à la page d'attente orr.html ; dès qu'elle est renseignée, tous les liens « ORR »
+   du site ouvrent directement ce site. */
+const ORR_URL = "";
 
 /* Mode présentation : ouvrir le site avec ?presentation pour le montrer
    sans bandeau ni consignes ; ?presentation=0 pour revenir au mode travail. */
@@ -54,11 +68,6 @@ const MENU = [
   },
   {
     num: "05", label: "ORR", href: "orr.html",
-    sub: [
-      { label: "Découvrir l'expérience ORR", href: "orr.html#experience" },
-      { label: "Les rituels ORR", href: "orr.html#rituels" },
-      { label: "La boutique ORR", href: "orr.html#boutique" },
-    ],
   },
   {
     num: "06", label: "Podcasts", href: "podcasts.html",
@@ -598,5 +607,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initPrefill();
   initSectionRail();
   initVideos();
+  initOrrLink();
   applyPresentation();
 });
