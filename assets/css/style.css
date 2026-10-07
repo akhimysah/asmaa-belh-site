@@ -828,6 +828,11 @@ section[id], article[id], li[id] { scroll-margin-top: 6rem; }
   .hero-media .photo { left: 0; }
   .hero-media .photo img { object-position: 50% 0%; }
 }
+/* Photo « bureau » de l'accueil : visage vers la droite du cadre */
+.hero .hero-media .photo-bureau img { object-position: 64% 30%; }
+@media (max-width: 860px) {
+  .hero .hero-media .photo-bureau img { object-position: 72% 0%; }
+}
 @media (max-width: 860px) {
   .hero-content { padding-top: 50vh; padding-bottom: 4rem; }
   .hero-media .photo img { object-position: 35% 0%; }
