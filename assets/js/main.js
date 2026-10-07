@@ -91,11 +91,17 @@ const MENU = [
   },
 ];
 
+/* Coordonnées et réseaux (href vide = lien pas encore fourni : affiché seulement en brouillon). */
+const CONTACT = { email: "asmaabelhcoach@gmail.com", tel: "+33 6 58 30 67 37", telHref: "tel:+33658306737" };
 const SOCIAL = [
-  { label: "Instagram", href: "#" },
-  { label: "YouTube", href: "#" },
-  { label: "Spotify", href: "#" },
+  { label: "Instagram", href: "https://www.instagram.com/asmaabelhofficial/" },
+  { label: "TikTok", href: "https://www.tiktok.com/@asmaabelh1" },
+  { label: "YouTube", href: "" },
+  { label: "Spotify", href: "" },
 ];
+const socialLink = (s, extra = "") => s.href
+  ? `<a href="${s.href}" target="_blank" rel="noopener">${s.label}</a>`
+  : (SHOW_DRAFT_UI ? `<a href="#">${s.label}${extra}</a>` : "");
 
 function currentPage() {
   const p = location.pathname.split("/").pop();
@@ -149,7 +155,7 @@ function renderHeader() {
         <div class="menu-foot">
           <a class="menu-contact" href="contact.html">Contact</a>
           <div class="menu-social">
-            ${SOCIAL.map((s) => `<a href="${s.href}">${s.label}</a>`).join('<span>•</span>')}
+            ${SOCIAL.map((s) => socialLink(s)).filter(Boolean).join('<span>•</span>')}
           </div>
         </div>
       </div>
@@ -231,15 +237,14 @@ function renderFooter() {
           <div>
             <h2 class="f-title">Suivre</h2>
             <ul>
-              ${SOCIAL.map((s) => `<li><a href="${s.href}">${s.label} <span class="ph ph-inline">lien</span></a></li>`).join("")}
-              <li><a href="#">TikTok <span class="ph ph-inline">lien</span></a></li>
+              ${SOCIAL.map((s) => socialLink(s, ' <span class="ph ph-inline">lien</span>')).filter(Boolean).map((a) => `<li>${a}</li>`).join("")}
             </ul>
           </div>
           <div>
             <h2 class="f-title">Contact</h2>
             <ul>
-              <li><span class="ph ph-inline">email@…</span></li>
-              <li><span class="ph ph-inline">téléphone (si souhaité)</span></li>
+              <li><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></li>
+              <li><a href="${CONTACT.telHref}">${CONTACT.tel}</a></li>
             </ul>
           </div>
         </div>
