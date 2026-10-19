@@ -182,9 +182,9 @@ async function connecter(url) {
   await test("repères de section : section active au défilement (Asmaa)", async () => {
     await aller("asmaa.html");
     const r = await js(`const rail = document.querySelector('.section-rail'); if (!rail) return 'absent';
-      window.scrollTo({ top: document.getElementById('methodes').offsetTop + 100, behavior: 'instant' }); rail.update();
+      window.scrollTo({ top: document.getElementById('approche').offsetTop + 100, behavior: 'instant' }); rail.update();
       return [rail.classList.contains('show'), rail.querySelector('a.active')?.getAttribute('href')];`);
-    verifier(Array.isArray(r), "repères absents"); verifier(r[0] && r[1] === "#methodes", "actif : " + r[1]);
+    verifier(Array.isArray(r), "repères absents"); verifier(r[0] && r[1] === "#approche", "actif : " + r[1]);
   });
 
   // 10. Retour en haut

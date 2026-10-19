@@ -24,7 +24,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 
 ## Checklist des contenus à recevoir
 
-**Asmaa** : textes reçus et intégrés (biographie, approche, méthodes & pratiques, venir comme vous êtes). Reste : photos professionnelles.
+**Asmaa** : textes reçus et intégrés (biographie, approche, venir comme vous êtes). Reste : photos professionnelles.
 
 **Immersions & Retraites** : textes Retraites et Immersions reçus et intégrés. Reste : photos des lieux, dates des prochaines retraites, tarifs éventuels, outil de liste d'attente.
 
