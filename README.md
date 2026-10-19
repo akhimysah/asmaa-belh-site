@@ -12,7 +12,7 @@ Site statique (HTML / CSS / JS, sans dépendance ni build). Ouvrir `index.html` 
 | Immersions & Retraites | `immersions-retraites.html` | Présentation · Dates · Lieux · Programme · Tarifs · Inclus · Inscription · Photos/vidéos |
 | ORR | `orr.html` | Simple renvoi vers le site ORR : renseigner `ORR_URL` dans `assets/js/main.js` et tous les liens « ORR » ouvrent ce site |
 | Podcasts | `podcasts.html` | Les derniers épisodes (#derniers) · Tous les podcasts (#tous) |
-| Livres | `livres.html` | Sexy & Sacrée · Love Programme · L'ouvrage autour de l'argent (#argent) · Tous les livres |
+| Livres | `livres.html` | Sexy & Sacrée · Love Programme |
 | Galerie | `galerie.html` | Grille filtrable de photos |
 | Contact | `contact.html` | Email · téléphone · réseaux · formulaire |
 
@@ -34,7 +34,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 
 **Podcasts** : nom, présentation, cover, liens plateformes (Spotify, Apple, YouTube…), lien du dernier épisode à intégrer.
 
-**Livres** : couverture HD, résumé, extrait, liens d'achat, avis, pour chaque livre (dont le titre exact de l'ouvrage autour de l'argent).
+**Livres** : couverture HD, résumé, extrait, liens d'achat, avis, pour chaque livre.
 
 **Galerie** : 11 images extraites des vidéos (scène, public, coulisses) avec visionneuse. Reste : photos des retraites et portraits.
 

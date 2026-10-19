@@ -75,8 +75,6 @@ const MENU = [
     sub: [
       { label: "« Sexy & Sacrée »", href: "livres.html#sexy-et-sacree" },
       { label: "Love Programme", href: "livres.html#love-programme" },
-      { label: "L'ouvrage autour de l'argent", href: "livres.html#argent" },
-      { label: "Tous les livres", href: "livres.html#tous" },
     ],
   },
   {

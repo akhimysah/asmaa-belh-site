@@ -448,6 +448,10 @@ body.menu-open { overflow: hidden; }
 @media (max-width: 640px) {
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
 }
+/* Deux cartes seulement (livres de l'accueil) : centrées, à la largeur d'une carte sur trois */
+@media (min-width: 641px) {
+  .grid-duo { grid-template-columns: repeat(2, minmax(0, 380px)); justify-content: center; }
+}
 .split { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; }
 .split.reverse > :first-child { order: 2; }
 .split .eyebrow { color: var(--or); }
@@ -1530,27 +1534,16 @@ body.menu-open .to-top { opacity: 0; visibility: hidden; }
   box-shadow: 0 40px 70px rgba(0,0,0,0.7);
 }
 .books-hero .bh img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.books-hero .bh-1 { right: 30%; transform: translateY(-46%) rotate(-7deg); }
-.books-hero .bh-2 { right: 17%; transform: translateY(-54%) rotate(3deg); z-index: 2; }
-.books-hero .bh-3 {
-  right: 5%;
-  transform: translateY(-44%) rotate(9deg);
-  border: 1px solid var(--line);
-  background: linear-gradient(160deg, var(--bordeaux), var(--noir-2));
-  display: grid;
-  place-items: center;
-}
-.books-hero .bh-3 em { font-family: var(--font-display); color: var(--or); font-size: 1.4rem; }
+.books-hero .bh-1 { right: 22%; transform: translateY(-46%) rotate(-7deg); }
+.books-hero .bh-2 { right: 9%; transform: translateY(-54%) rotate(3deg); z-index: 2; }
 @media (prefers-reduced-motion: no-preference) {
   .books-hero .bh { transition: transform 1.4s var(--ease); }
   html:not(.is-loaded) .books-hero .bh-1 { transform: translateY(-40%) rotate(-2deg); }
-  html:not(.is-loaded) .books-hero .bh-3 { transform: translateY(-40%) rotate(3deg); }
 }
 @media (max-width: 860px) {
   .books-hero .bh { width: 28vw; top: 30%; }
-  .books-hero .bh-1 { right: 52%; }
-  .books-hero .bh-2 { right: 30%; }
-  .books-hero .bh-3 { right: 6%; }
+  .books-hero .bh-1 { right: 38%; }
+  .books-hero .bh-2 { right: 12%; }
 }
 .closing-banner {
   position: relative;
@@ -1713,7 +1706,6 @@ body:not(.has-banner) .site-header { top: 0; }
 .bientot { min-height: 50vh; display: grid; align-items: center; background: radial-gradient(ellipse at 50% 20%, rgba(90,20,35,0.55), transparent 60%), var(--noir); }
 .bientot h2 { font-size: clamp(2.2rem, 4.6vw, 3.6rem); }
 .bientot h2 em { color: var(--or-3); }
-body.presentation #argent .book-cover .img-ph::after { content: "Bientôt"; font-family: var(--font-display); font-style: italic; font-size: 1.8rem; letter-spacing: 0.02em; text-transform: none; color: var(--or); opacity: 1; }
 
 /* Cartes univers sur mobile : moins hautes, sans vide pour celles qui n'ont pas encore de photo */
 @media (max-width: 640px) {
