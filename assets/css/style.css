@@ -1801,3 +1801,6 @@ body.menu-open .section-rail { opacity: 0; pointer-events: none; }
 /* Galerie : légendes et filtres plus lisibles sur mobile (Lighthouse : tailles de police) */
 .g-item figcaption { font-size: 0.78rem; letter-spacing: 0.12em; }
 .filters button { font-size: 0.72rem; }
+
+/* Sommaire masqué : sert seulement à construire les repères de section sur le côté */
+.page-toc[data-rail-only] { display: none; }
