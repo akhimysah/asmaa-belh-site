@@ -15,7 +15,7 @@ const CHROME = process.env.CHROME || [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium", "/usr/bin/chromium-browser",
 ].find((p) => fs.existsSync(p));
-const PAGES = ["index.html", "asmaa.html", "programmes.html", "immersions-retraites.html", "orr.html", "podcasts.html",
+const PAGES = ["index.html", "asmaa.html", "programmes.html", "immersions-retraites.html", "podcasts.html",
   "livres.html", "galerie.html", "contact.html", "mentions-legales.html", "confidentialite.html", "a-fournir.html"];
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -157,13 +157,25 @@ async function connecter(url) {
   // 8. Mode présentation : aucune consigne visible
   await test("mode présentation : ni bandeau ni consigne visible", async () => {
     const restes = [];
-    for (const p of ["index.html", "programmes.html", "orr.html", "podcasts.html", "livres.html", "contact.html"]) {
+    for (const p of ["index.html", "programmes.html", "podcasts.html", "livres.html", "contact.html"]) {
       await aller(p + "?presentation");
       const n = await js(`return [!!document.querySelector('.wip-banner'), [...document.querySelectorAll('.ph')].filter(e => e.offsetParent && !e.closest('[hidden]')).length]`);
       if (n[0] || n[1]) restes.push(`${p} (bandeau ${n[0]}, consignes ${n[1]})`);
     }
     await aller("index.html?presentation=0");
     verifier(!restes.length, restes.join(", "));
+  });
+
+  // 8 bis. ORR : les liens mènent au site ORR, la page orr.html y redirige
+  await test("ORR : liens vers le site ORR, orr.html redirige", async () => {
+    await aller("index.html");
+    const r = await js(`return [ORR_URL, [...document.querySelectorAll('a')].filter(a => /ORR/.test(a.textContent) && !a.closest('.logo')).map(a => a.href)]`);
+    verifier(r[0], "ORR_URL vide");
+    verifier(r[1].length && r[1].every((h) => h === r[0]), "liens ORR : " + r[1].join(", "));
+    await cdp.send("Page.navigate", { url: `${BASE}/orr.html` }); await sleep(2500);
+    const url = await js(`return location.href`);
+    verifier(url.startsWith(r[0]), "pas de redirection : " + url);
+    return `${r[1].length} liens`;
   });
 
   // 9. Repères de section (grand écran)

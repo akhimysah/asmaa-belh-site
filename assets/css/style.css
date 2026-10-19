@@ -603,6 +603,22 @@ body.menu-open { overflow: hidden; }
   margin: 2rem 0;
   line-height: 1.35;
 }
+/* Présentation et extrait des livres (textes d'Asmaa) */
+.book-text { margin-top: 1.8rem; max-width: 62ch; color: var(--blanc-80); }
+.book-text p + p { margin-top: 0.9rem; }
+.book-text .book-hook { font-family: var(--font-display); font-style: italic; font-size: 1.25rem; color: var(--blanc); }
+.book-list { margin: 0.7rem 0 0; padding-left: 1.2rem; }
+.book-list li { margin-top: 0.35rem; }
+.book-list li::marker { color: var(--or); }
+.book-list strong { color: var(--blanc); font-weight: 500; }
+.book-extract { margin-top: 1.8rem; max-width: 62ch; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.book-extract summary { cursor: pointer; list-style: none; padding: 1rem 0; font-size: 0.72rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--or); }
+.book-extract summary::-webkit-details-marker { display: none; }
+.book-extract summary::after { content: "+"; float: right; font-size: 1rem; letter-spacing: 0; transition: transform 0.3s var(--ease); }
+.book-extract[open] summary::after { transform: rotate(45deg); }
+.book-extract summary:focus-visible { outline: 1px solid var(--or); outline-offset: 4px; }
+.book-extract-text { padding: 0 0 1.4rem 1.5rem; border-left: 1px solid var(--or); margin-bottom: 1.4rem; font-family: var(--font-display); font-style: italic; font-size: 1.12rem; line-height: 1.6; color: var(--blanc); }
+.book-extract-text p + p { margin-top: 0.9rem; }
 @media (max-width: 860px) {
   .book, .book.reverse { grid-template-columns: 1fr; }
   .book.reverse .book-cover { order: 0; }

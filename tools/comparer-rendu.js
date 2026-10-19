@@ -9,7 +9,7 @@
 
    Pour chaque élément de chaque page, compare ~50 propriétés calculées (taille, position,
    marges, typographie, couleurs, bordures, transformations, pseudo-éléments), animations figées. */
-async function comparerRendu(largeur, pages = ["index.html", "asmaa.html", "programmes.html", "immersions-retraites.html", "orr.html", "podcasts.html", "livres.html", "galerie.html", "contact.html", "mentions-legales.html", "confidentialite.html", "a-fournir.html"]) {
+async function comparerRendu(largeur, pages = ["index.html", "asmaa.html", "programmes.html", "immersions-retraites.html", "podcasts.html", "livres.html", "galerie.html", "contact.html", "mentions-legales.html", "confidentialite.html", "a-fournir.html"]) {
   const PROPS = ["display", "position", "top", "right", "bottom", "left", "width", "height", "margin-top", "margin-right", "margin-bottom", "margin-left", "padding-top", "padding-right", "padding-bottom", "padding-left", "font-family", "font-size", "font-weight", "font-style", "line-height", "letter-spacing", "text-transform", "text-align", "color", "background-color", "background-image", "border-top", "border-right", "border-bottom", "border-left", "border-radius", "opacity", "transform", "object-fit", "object-position", "grid-template-columns", "gap", "flex-direction", "justify-content", "align-items", "z-index", "visibility", "overflow", "box-shadow", "aspect-ratio", "max-width", "white-space"];
   const charger = async (page, ancien) => {
     const f = document.createElement("iframe");

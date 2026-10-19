@@ -22,7 +22,7 @@ const SITE = { brouillon: true };
 /* Adresse du site ORR (le deuxième site d'Asmaa). Tant qu'elle est vide, « ORR » mène
    à la page d'attente orr.html ; dès qu'elle est renseignée, tous les liens « ORR »
    du site ouvrent directement ce site. */
-const ORR_URL = "";
+const ORR_URL = "https://imanebouras.github.io/Orrhealing/";
 
 /* Mode présentation : ouvrir le site avec ?presentation pour le montrer
    sans bandeau ni consignes ; ?presentation=0 pour revenir au mode travail. */
