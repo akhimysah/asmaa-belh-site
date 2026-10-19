@@ -43,12 +43,6 @@ const MENU = [
   { num: "01", label: "Accueil", href: "index.html" },
   {
     num: "02", label: "Asmaa", href: "asmaa.html",
-    sub: [
-      { label: "Biographie", href: "asmaa.html#biographie" },
-      { label: "Approche", href: "asmaa.html#approche" },
-      { label: "Méthodes & pratiques", href: "asmaa.html#methodes" },
-      { label: "Photos professionnelles", href: "asmaa.html#photos" },
-    ],
   },
   {
     num: "03", label: "Programmes", href: "programmes.html",
