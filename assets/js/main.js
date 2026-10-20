@@ -88,7 +88,7 @@ const CONTACT = { email: "asmaabelhcoach@gmail.com", tel: "+33 6 58 30 67 37", t
 const SOCIAL = [
   { label: "Instagram", href: "https://www.instagram.com/asmaabelhofficial/" },
   { label: "TikTok", href: "https://www.tiktok.com/@asmaabelh1" },
-  { label: "YouTube", href: "" },
+  { label: "YouTube", href: "https://www.youtube.com/@asmaabelhcoach8230" },
   { label: "Spotify", href: "" },
 ];
 const socialLink = (s, extra = "") => s.href
