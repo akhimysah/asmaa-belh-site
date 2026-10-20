@@ -653,6 +653,11 @@ body.menu-open { overflow: hidden; }
   font-size: 0.7rem;
 }
 .play:hover { background: var(--or); color: #1a1408; }
+.episode picture { display: block; width: 120px; min-width: 0; }
+.episode img { width: 100%; height: auto; display: block; border: 1px solid var(--line); }
+@media (max-width: 640px) { .episode picture { width: 80px; } }
+.podcast-cover { width: 100%; height: auto; display: block; border: 1px solid var(--line); box-shadow: var(--shadow); }
+.podcast-embed iframe { width: 100%; max-width: 760px; height: 450px; border: 0; border-radius: 10px; overflow: hidden; display: block; margin: 0 auto; background: transparent; }
 .platforms { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .platforms .btn { background: transparent; color: var(--blanc); border-color: var(--or); padding: 0.8em 1.6em; }
 .platforms .btn:hover { background: var(--or); color: #1a1408; }

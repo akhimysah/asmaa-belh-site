@@ -89,7 +89,7 @@ const SOCIAL = [
   { label: "Instagram", href: "https://www.instagram.com/asmaabelhofficial/" },
   { label: "TikTok", href: "https://www.tiktok.com/@asmaabelh1" },
   { label: "YouTube", href: "https://www.youtube.com/@asmaabelhcoach8230" },
-  { label: "Spotify", href: "" },
+  { label: "Spotify", href: "https://podcasters.spotify.com/pod/show/asmaa-belh-therapeute" },
 ];
 const socialLink = (s, extra = "") => s.href
   ? `<a href="${s.href}" target="_blank" rel="noopener">${s.label}</a>`

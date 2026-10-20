@@ -30,7 +30,7 @@
   <link rel="preload" href="assets/fonts/jost-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" type="image/webp" imagesrcset="assets/img/hero-bureau-640.webp?v=2 640w, assets/img/hero-bureau-960.webp?v=2 960w, assets/img/hero-bureau-1400.webp?v=2 1400w, assets/img/hero-bureau.webp?v=2 1800w, assets/img/hero-bureau-2400.webp?v=2 2400w, assets/img/hero-bureau-3200.webp?v=2 3200w" imagesizes="(max-width: 860px) 125vh, 110vh" fetchpriority="high">
   <link rel="stylesheet" href="assets/css/fonts.css?v=1790939170">
-  <link rel="stylesheet" href="assets/css/style.css?v=1792433105">
+  <link rel="stylesheet" href="assets/css/style.css?v=1792495975">
   <noscript><style>.reveal, .hero-content > * { opacity: 1 !important; transform: none !important; } .divider { transform: none !important; }</style></noscript>
 </head>
 <body>
@@ -132,7 +132,7 @@
         <div><span class="num">05</span><h3>ORR</h3><span class="link-arrow">Découvrir</span></div>
       </a>
       <a href="podcasts.html" class="univers-card reveal">
-        <div class="img-ph" data-label=""><span>Photo</span></div>
+        <div class="univers-photo"><picture><source srcset="assets/img/podcast-cover.webp" type="image/webp"><img src="assets/img/podcast-cover.jpg" alt="" loading="lazy" decoding="async" style="object-position:60% 40%"></picture></div>
         <div><span class="num">06</span><h3>Podcasts</h3><p>Les derniers épisodes · Tous les podcasts</p><span class="link-arrow">Écouter</span></div>
       </a>
       <a href="livres.html" class="univers-card reveal">
@@ -206,25 +206,25 @@
 </section>
 
 <!-- ===== PODCAST TEASER ===== -->
-<section data-pres-hide class="section section-sand">
+<section class="section section-sand">
   <div class="container split reverse">
     <div class="reveal">
-      <div class="img-ph ratio-square" data-label="Visuel du podcast"><span>Cover à fournir</span></div>
+      <picture><source srcset="assets/img/podcast-cover.webp" type="image/webp"><img class="podcast-cover" src="assets/img/podcast-cover.jpg" alt="Couverture d'Asmaa Belh Le Podcast" width="800" height="800" loading="lazy" decoding="async"></picture>
     </div>
     <div class="reveal">
       <span class="eyebrow">Podcast</span>
-      <h2><span class="ph ph-inline">Nom du podcast</span></h2>
+      <h2>Asmaa Belh <em>Le Podcast</em></h2>
       <div class="divider"></div>
-      <div class="ph">Présentation du podcast (3 à 4 lignes) + lien de la plateforme principale.</div>
+      <p>Esprit libre, experte en éveil et développement de soi, catalyseur de transmutation intra-personnelle : Asmaa Belh suscite beaucoup de tentatives de qualification sans qu'aucune ne réussisse à refléter la richesse et la complexité de cette thérapeute d'un nouveau genre.</p>
       <div class="btn-row">
         <a href="podcasts.html" class="btn">Tous les épisodes</a>
-        <a href="#" class="btn btn-solid">Écouter sur Spotify</a>
+        <a href="https://podcasts.apple.com/fr/podcast/asmaa-belh-le-podcast/id1519587364" class="btn btn-solid" target="_blank" rel="noopener">Écouter sur Apple Podcasts</a>
       </div>
     </div>
   </div>
 </section>
 
 <div data-site-footer><footer class="nojs-foot"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Politique de confidentialité</a></footer></div>
-<script src="assets/js/main.js?v=1792492470" defer></script>
+<script src="assets/js/main.js?v=1792496009" defer></script>
 </body>
 </html>
