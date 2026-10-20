@@ -45,7 +45,7 @@ const MENU = [
     num: "02", label: "Asmaa", href: "asmaa.html",
   },
   {
-    num: "03", label: "Programmes", href: "programmes.html",
+    num: "03", label: "Les offres", href: "programmes.html",
     sub: [
       { label: "Programme « Sexy & Sacrée »", href: "programmes.html#sexy-et-sacree" },
       { label: "Cartographie", href: "programmes.html#cartographie" },
