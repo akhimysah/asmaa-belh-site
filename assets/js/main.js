@@ -47,7 +47,7 @@ const MENU = [
   {
     num: "03", label: "Les offres", href: "programmes.html",
     sub: [
-      { label: "Programme « Sexy & Sacrée »", href: "programmes.html#sexy-et-sacree" },
+      { label: "Masterclass « Sexy & Sacrée »", href: "programmes.html#sexy-et-sacree" },
       { label: "Cartographie", href: "programmes.html#cartographie" },
       { label: "Avoir une conversation difficile", href: "programmes.html#conversation-difficile" },
       { label: "Comprendre ma femme", href: "programmes.html#comprendre-ma-femme" },
@@ -495,7 +495,7 @@ function initPrefill() {
     const msg = document.querySelector('form[data-form="contact"] textarea[name="message"]');
     const prog = PROGRAMMES[q.get("programme")];
     const intro = {
-      programme: prog ? `Bonjour Asmaa, j'aimerais en savoir plus sur le programme « ${prog} ».` : "Bonjour Asmaa, j'aimerais en savoir plus sur vos programmes.",
+      programme: prog ? `Bonjour Asmaa, j'aimerais en savoir plus sur la masterclass « ${prog} ».` : "Bonjour Asmaa, j'aimerais en savoir plus sur vos masterclass.",
       orr: "Bonjour, j'aimerais être prévenu·e de l'ouverture de l'univers ORR.",
       podcast: "Bonjour, j'aimerais être prévenu·e de la sortie des épisodes du podcast.",
     }[sujet.value];

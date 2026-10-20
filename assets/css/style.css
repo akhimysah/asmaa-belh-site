@@ -422,6 +422,7 @@ body.menu-open { overflow: hidden; }
 .hero .link-arrow { margin-left: 4.6rem; }
 .hero-page { min-height: 72vh; }
 .hero-page .hero-content { padding: clamp(10rem, 18vh, 13rem) 0 5rem; }
+.hero.hero-page .hero-content h1.hero-title-xl { font-size: clamp(3.6rem, 9vw, 7.5rem); line-height: 1; }
 .hero-page h1 { font-family: var(--font-display); text-transform: none; font-size: clamp(2.6rem, 5.5vw, 5rem); font-weight: 400; }
 @media (max-width: 640px) {
   .hero .btn { min-width: 0; width: 100%; }
