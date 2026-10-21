@@ -1819,11 +1819,16 @@ body.menu-open .section-rail { opacity: 0; pointer-events: none; }
 .page-toc[data-rail-only] { display: none; }
 
 /* Section claire (accueil, présentation d'Asmaa) : fond blanc, texte noir */
-.section.section-light { background: #faf7f2; color: #16110f; }
+.section.section-light { background: #f1f0ee; color: #16110f; }
 .section-light h2, .section-light p { color: #16110f; }
 .section-light .eyebrow { color: #8a6a2c; }
 .section-light h2 em, .section.section-light h2 em { color: #8a6a2c; }
 .section-light .divider { background: #b08d47; }
 .section-light .link-arrow { color: #16110f; border-bottom-color: #b08d47; }
 .section-light .link-arrow:hover { color: #8a6a2c; }
-.section-light .photo.media { border-color: rgba(22,17,15,0.12); }
+/* Portrait fondu dans le fond : pas de cadre, bords en dégradé */
+.section-light .photo.media { border: 0; background: transparent; box-shadow: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 8%, #000 80%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(to bottom, transparent 0%, #000 8%, #000 80%, transparent 100%);
+  mask-composite: intersect; }
