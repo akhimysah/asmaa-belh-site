@@ -142,7 +142,7 @@ async function connecter(url) {
       f.requestSubmit(); await new Promise(r => setTimeout(r, 150)); const e1 = document.getElementById('wl-tel-erreur')?.textContent || '';
       f.telephone.value = '06 12 34 56 78'; f.requestSubmit(); await new Promise(r => setTimeout(r, 200));
       return [e1, f.querySelector('.form-status').className]`);
-    verifier(t[0].includes("téléphone"), "téléphone non exigé : " + t[0]); verifier(t[1].includes("is-ok"), "pas de confirmation avec téléphone");
+    verifier(t[0].includes("WhatsApp"), "téléphone non exigé : " + t[0]); verifier(t[1].includes("is-ok"), "pas de confirmation avec téléphone");
   });
 
   // 7. Galerie : visionneuse

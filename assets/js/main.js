@@ -83,7 +83,7 @@ const MENU = [
 ];
 
 /* Coordonnées et réseaux (href vide = lien pas encore fourni : affiché seulement en brouillon). */
-const CONTACT = { email: "asmaabelhcoach@gmail.com", tel: "+33 6 58 30 67 37", telHref: "tel:+33658306737" };
+const CONTACT = { email: "asmaabelhcoach@gmail.com", tel: "+33 6 58 30 67 37", telHref: "https://wa.me/33658306737" };
 const SOCIAL = [
   { label: "Instagram", href: "https://www.instagram.com/asmaabelhofficial/" },
   { label: "TikTok", href: "https://www.tiktok.com/@asmaabelh1" },
@@ -234,7 +234,7 @@ function renderFooter() {
             <h2 class="f-title">Contact</h2>
             <ul>
               <li><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></li>
-              <li><a href="${CONTACT.telHref}">${CONTACT.tel}</a></li>
+              <li><a href="${CONTACT.telHref}" target="_blank" rel="noopener">WhatsApp ${CONTACT.tel}</a></li>
             </ul>
           </div>
         </div>
@@ -366,8 +366,8 @@ const FORM_MESSAGES = {
 
 function fieldError(field) {
   const v = field.validity;
-  if (v.valueMissing) return field.type === "email" ? "Merci d'indiquer votre adresse email." : field.type === "tel" ? "Merci d'indiquer votre numéro de téléphone." : "Ce champ est nécessaire.";
-  if (field.type === "tel" && field.value && field.value.replace(/\D/g, "").length < 9) return "Ce numéro de téléphone ne semble pas complet.";
+  if (v.valueMissing) return field.type === "email" ? "Merci d'indiquer votre adresse email." : field.type === "tel" ? "Merci d'indiquer votre numéro WhatsApp." : "Ce champ est nécessaire.";
+  if (field.type === "tel" && field.value && field.value.replace(/\D/g, "").length < 9) return "Ce numéro WhatsApp ne semble pas complet.";
   if (v.typeMismatch && field.type === "email") return "Cette adresse email ne semble pas valide.";
   if (v.tooShort || (field.minLength > 0 && field.value && field.value.trim().length < field.minLength)) return `Encore quelques mots (au moins ${field.minLength} caractères).`;
   return "";
