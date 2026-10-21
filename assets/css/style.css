@@ -857,6 +857,8 @@ section[id], article[id], li[id] { scroll-margin-top: 6rem; }
 }
 /* Photo « bureau » de l'accueil : visage vers la droite du cadre */
 .hero .hero-media .photo-bureau img { object-position: 64% 30%; }
+.hero .hero-media .photo-podcast img { object-position: 40% 4%; }
+@media (max-width: 860px) { .hero .hero-media .photo-podcast img { object-position: 35% 10%; } }
 @media (max-width: 860px) {
   .hero .hero-media .photo-bureau img { object-position: 72% 0%; }
 }
