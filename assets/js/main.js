@@ -367,7 +367,8 @@ const FORM_MESSAGES = {
 
 function fieldError(field) {
   const v = field.validity;
-  if (v.valueMissing) return field.type === "email" ? "Merci d'indiquer votre adresse email." : "Ce champ est nécessaire.";
+  if (v.valueMissing) return field.type === "email" ? "Merci d'indiquer votre adresse email." : field.type === "tel" ? "Merci d'indiquer votre numéro de téléphone." : "Ce champ est nécessaire.";
+  if (field.type === "tel" && field.value && field.value.replace(/\D/g, "").length < 9) return "Ce numéro de téléphone ne semble pas complet.";
   if (v.typeMismatch && field.type === "email") return "Cette adresse email ne semble pas valide.";
   if (v.tooShort || (field.minLength > 0 && field.value && field.value.trim().length < field.minLength)) return `Encore quelques mots (au moins ${field.minLength} caractères).`;
   return "";

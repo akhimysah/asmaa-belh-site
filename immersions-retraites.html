@@ -129,19 +129,22 @@
         <div class="field"><label for="wl-prenom">Prénom</label><input id="wl-prenom" name="prenom" type="text" autocomplete="given-name" required></div>
         <div class="field"><label for="wl-email">Email</label><input id="wl-email" name="email" type="email" autocomplete="email" required></div>
       </div>
-      <div class="field">
-        <label for="wl-type">Je m'intéresse à</label>
-        <select id="wl-type" name="accompagnement">
-          <option>Une retraite en petit groupe</option>
-          <option>Une immersion individuelle</option>
-          <option>Les deux</option>
-        </select>
+      <div class="form-row">
+        <div class="field"><label for="wl-tel">Téléphone</label><input id="wl-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" required></div>
+        <div class="field">
+          <label for="wl-type">Je m'intéresse à</label>
+          <select id="wl-type" name="accompagnement">
+            <option>Une retraite en petit groupe</option>
+            <option>Une immersion individuelle</option>
+            <option>Les deux</option>
+          </select>
+        </div>
       </div>
       <div class="field"><label for="wl-message">Quelques mots (facultatif)</label><textarea id="wl-message" name="message"></textarea></div>
       <div class="hp" aria-hidden="true"><label>Ne pas remplir ce champ<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label></div>
       <div>
         <button type="submit" class="btn">M'inscrire sur la liste d'attente <span aria-hidden="true">→</span></button>
-        <p class="form-consent">Votre adresse sert uniquement à vous prévenir des prochaines dates. <a href="confidentialite.html">Politique de confidentialité</a>.</p>
+        <p class="form-consent">Vos coordonnées servent uniquement à vous prévenir des prochaines dates. <a href="confidentialite.html">Politique de confidentialité</a>.</p>
         <p class="form-status" role="status" aria-live="polite"></p>
       </div>
     </form>
@@ -164,6 +167,6 @@
 </section>
 
 <div data-site-footer><footer class="nojs-foot"><a href="mentions-legales.html">Mentions légales</a><a href="confidentialite.html">Politique de confidentialité</a></footer></div>
-<script src="assets/js/main.js?v=1792581842" defer></script>
+<script src="assets/js/main.js?v=1792589254" defer></script>
 </body>
 </html>

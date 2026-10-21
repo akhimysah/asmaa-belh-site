@@ -133,11 +133,16 @@ async function connecter(url) {
     verifier(r[0] === "programme", "sujet : " + r[0]); verifier(r[1].includes("Cartographie"), "message non prérempli");
   });
 
-  // 6. Liste d'attente : le bouton présélectionne l'accompagnement
-  await test("liste d'attente : « Demander une immersion » présélectionne l'immersion", async () => {
+  // 6. Liste d'attente : présélection de l'accompagnement, téléphone obligatoire
+  await test("liste d'attente : présélection de l'immersion, téléphone obligatoire", async () => {
     await aller("immersions-retraites.html");
     const v = await js(`document.querySelector('a[data-choix="Une immersion individuelle"]').click(); return document.querySelector('select[name=accompagnement]').value`);
     verifier(v === "Une immersion individuelle", "valeur : " + v);
+    const t = await js(`const f = document.querySelector('form[data-form="liste-attente"]'); f.prenom.value = 'Test'; f.email.value = 'test@exemple.fr'; f.telephone.value = '';
+      f.requestSubmit(); await new Promise(r => setTimeout(r, 150)); const e1 = document.getElementById('wl-tel-erreur')?.textContent || '';
+      f.telephone.value = '06 12 34 56 78'; f.requestSubmit(); await new Promise(r => setTimeout(r, 200));
+      return [e1, f.querySelector('.form-status').className]`);
+    verifier(t[0].includes("téléphone"), "téléphone non exigé : " + t[0]); verifier(t[1].includes("is-ok"), "pas de confirmation avec téléphone");
   });
 
   // 7. Galerie : visionneuse
