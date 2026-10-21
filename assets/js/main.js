@@ -109,7 +109,7 @@ function renderHeader() {
     ${SHOW_DRAFT_UI ? '<div class="wip-banner">Squelette de site — version de travail, contenus à compléter</div>' : ""}
     <header class="site-header">
       <div class="container">
-        <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute • Autrice • Entrepreneure<br>Créatrice de l'univers ORR</small></a>
+        <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute • Autrice • Entrepreneure<br>Créatrice de la maison ORR</small></a>
         <nav class="nav-inline" aria-label="Navigation principale">
           ${MENU.filter((m) => m.href !== "index.html").map(
             (m) => `<a href="${m.href}" class="${page === m.href ? "active" : ""}"${page === m.href ? ' aria-current="page"' : ""}>${m.short || m.label}</a>`
@@ -495,7 +495,7 @@ function initPrefill() {
     const prog = PROGRAMMES[q.get("programme")];
     const intro = {
       programme: prog ? `Bonjour Asmaa, j'aimerais en savoir plus sur la masterclass « ${prog} ».` : "Bonjour Asmaa, j'aimerais en savoir plus sur vos masterclass.",
-      orr: "Bonjour, j'aimerais être prévenu·e de l'ouverture de l'univers ORR.",
+      orr: "Bonjour, j'aimerais être prévenu·e de l'ouverture de la maison ORR.",
       podcast: "Bonjour, j'aimerais être prévenu·e de la sortie des épisodes du podcast.",
     }[sujet.value];
     if (msg && !msg.value && intro) msg.value = intro + "\n\n";
