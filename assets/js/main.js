@@ -311,7 +311,7 @@ function initLightbox() {
   const show = (n) => {
     i = (n + list.length) % list.length;
     const t = list[i];
-    img.src = t.dataset.full; img.alt = t.dataset.caption;
+    img.src = t.dataset.full; img.alt = t.querySelector("img")?.alt || "";
     cap.textContent = t.dataset.caption;
     count.textContent = `${i + 1} / ${list.length}`;
   };
