@@ -120,10 +120,10 @@ async function connecter(url) {
     await aller("contact.html");
     const r = await js(`const f = document.querySelector('form[data-form=contact]'); f.requestSubmit(); await new Promise(r => setTimeout(r, 150));
       const erreurs = [...f.querySelectorAll('.field-error')].filter(e => e.textContent).length;
-      f.prenom.value = 'Test'; f.email.value = 'test@exemple.fr'; f.message.value = 'Bonjour, une question sur les retraites.';
+      f.prenom.value = 'Test'; f.email.value = 'test@exemple.fr'; f.telephone.value = '06 12 34 56 78'; f.message.value = 'Bonjour, une question sur les retraites.';
       f.requestSubmit(); await new Promise(r => setTimeout(r, 200));
       return [erreurs, f.querySelector('.form-status').className, f.prenom.value];`);
-    verifier(r[0] >= 3, `${r[0]} erreurs affichées au lieu de 3`); verifier(r[1].includes("is-ok"), "pas de confirmation"); verifier(r[2] === "", "formulaire non vidé");
+    verifier(r[0] >= 4, `${r[0]} erreurs affichées au lieu de 4 (prénom, email, téléphone, message)`); verifier(r[1].includes("is-ok"), "pas de confirmation"); verifier(r[2] === "", "formulaire non vidé");
   });
 
   // 5. Préremplissage depuis un bouton
