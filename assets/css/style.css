@@ -1835,3 +1835,6 @@ body.menu-open .section-rail { opacity: 0; pointer-events: none; }
 
 /* Plus aucun numéro affiché sur le site */
 .num { display: none !important; }
+
+/* Galerie en noir et blanc */
+.masonry img, .lightbox img { filter: grayscale(1); }
