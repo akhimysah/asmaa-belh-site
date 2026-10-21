@@ -1600,7 +1600,8 @@ body.menu-open .to-top { opacity: 0; visibility: hidden; }
   display: flex;
   justify-content: center;
   padding-bottom: 30%;
-  background: radial-gradient(ellipse at 50% 35%, rgba(212,180,106,0.22), transparent 60%), radial-gradient(ellipse at 50% 100%, rgba(61,15,26,0.9), transparent 70%), var(--noir-3);
+  background: linear-gradient(180deg, rgba(11,10,10,0.15) 0%, rgba(11,10,10,0.35) 45%, rgba(11,10,10,0.92) 100%), #3d0f1a url(../img/livres-fond.jpg) center / cover no-repeat;
+  background-image: linear-gradient(180deg, rgba(11,10,10,0.15) 0%, rgba(11,10,10,0.35) 45%, rgba(11,10,10,0.92) 100%), image-set(url(../img/livres-fond.webp) type("image/webp"), url(../img/livres-fond.jpg) type("image/jpeg"));
   align-items: flex-start;
   padding: 10% 0 0;
 }
