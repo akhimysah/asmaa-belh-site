@@ -79,7 +79,6 @@ const MENU = [
   },
   {
     num: "08", label: "Galerie", href: "galerie.html",
-    sub: [{ label: "Galerie photographique", href: "galerie.html" }],
   },
 ];
 
