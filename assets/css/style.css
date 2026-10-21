@@ -1603,7 +1603,7 @@ body.menu-open .to-top { opacity: 0; visibility: hidden; }
   background: linear-gradient(180deg, rgba(11,10,10,0.15) 0%, rgba(11,10,10,0.35) 45%, rgba(11,10,10,0.92) 100%), #3d0f1a url(../img/livres-fond.jpg) center / cover no-repeat;
   background-image: linear-gradient(180deg, rgba(11,10,10,0.15) 0%, rgba(11,10,10,0.35) 45%, rgba(11,10,10,0.92) 100%), image-set(url(../img/livres-fond.webp) type("image/webp"), url(../img/livres-fond.jpg) type("image/jpeg"));
   align-items: flex-start;
-  padding: 10% 0 0;
+  padding: 24% 0 0;
 }
 .univers-books img {
   position: relative;
@@ -1731,6 +1731,7 @@ body:not(.has-banner) .site-header { top: 0; }
   .univers-card { aspect-ratio: 1 / 1; }
   .univers-card:has(> .img-ph) { aspect-ratio: auto; min-height: 0; padding-top: 3rem; }
   .univers-books img { width: 26%; }
+  .univers-books { padding-top: 9%; }
 }
 @media (max-width: 860px) {
   .hero-page .hero-media:has(.photo-banner)::after { background: linear-gradient(180deg, rgba(11,10,10,0.55) 0%, rgba(11,10,10,0.78) 35%, rgba(11,10,10,0.9) 70%, var(--noir) 100%); }
