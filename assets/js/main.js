@@ -134,7 +134,6 @@ function renderHeader() {
           ${MENU.map(
             (m) => `
             <li>
-              <span class="num">${m.num}</span>
               <span class="bar"></span>
               <div>
                 <a class="menu-main" href="${m.href}"${page === m.href ? ' aria-current="page"' : ""}>${m.label}</a>
@@ -523,7 +522,7 @@ function initSectionRail() {
   rail.innerHTML = items.map(({ a }) => {
     const num = a.querySelector("span")?.textContent || "";
     const label = a.textContent.replace(num, "").trim();
-    return `<a href="${a.getAttribute("href")}"><span class="sr-num">${num}</span><span class="sr-label">${label}</span></a>`;
+    return `<a href="${a.getAttribute("href")}"><span class="sr-num"></span><span class="sr-label">${label}</span></a>`;
   }).join("");
   document.body.appendChild(rail);
   const links = [...rail.querySelectorAll("a")];
