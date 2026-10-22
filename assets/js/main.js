@@ -46,12 +46,7 @@ const MENU = [
   },
   {
     num: "03", label: "Les offres", href: "programmes.html",
-    sub: [
-      { label: "Masterclass « Sexy & Sacrée »", href: "programmes.html#sexy-et-sacree" },
-      { label: "Cartographie", href: "programmes.html#cartographie" },
-      { label: "Avoir une conversation difficile", href: "programmes.html#conversation-difficile" },
-      { label: "Comprendre ma femme", href: "programmes.html#comprendre-ma-femme" },
-    ],
+    sub: [{ label: "Masterclass", href: "masterclass.html" }],
   },
   {
     num: "04", label: "Immersions & Retraites", short: "Retraites", href: "immersions-retraites.html",
@@ -355,11 +350,13 @@ const FORM_ENDPOINTS = {
   default: "",
   contact: "",
   "liste-attente": "",
+  masterclass: "",
   newsletter: "",
 };
 
 const FORM_MESSAGES = {
   contact: "Merci, votre message est bien parti. Asmaa vous répondra personnellement.",
+  masterclass: "Merci, votre inscription est bien enregistrée. Asmaa vous recontacte très vite.",
   "liste-attente": "Merci, vous êtes inscrit·e sur la liste d'attente. Vous serez parmi les premiers informés des prochaines dates.",
   newsletter: "Merci, c'est noté. À très vite dans ta boîte mail.",
 };
@@ -500,6 +497,8 @@ function initPrefill() {
     }[sujet.value];
     if (msg && !msg.value && intro) msg.value = intro + "\n\n";
   }
+  const mc = document.querySelector('form[data-form="masterclass"] select[name="masterclass"]');
+  if (mc && q.get("masterclass") && [...mc.options].some((o) => o.value === q.get("masterclass"))) mc.value = q.get("masterclass");
   document.querySelectorAll("a[data-choix]").forEach((a) => a.addEventListener("click", () => {
     const sel = document.querySelector('form[data-form="liste-attente"] select[name="accompagnement"]');
     if (sel) sel.value = a.dataset.choix;

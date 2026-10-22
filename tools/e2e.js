@@ -15,7 +15,7 @@ const CHROME = process.env.CHROME || [
   "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
   "/usr/bin/google-chrome", "/usr/bin/google-chrome-stable", "/usr/bin/chromium", "/usr/bin/chromium-browser",
 ].find((p) => fs.existsSync(p));
-const PAGES = ["index.html", "asmaa.html", "programmes.html", "immersions-retraites.html", "podcasts.html",
+const PAGES = ["index.html", "asmaa.html", "programmes.html", "immersions-retraites.html", "masterclass.html", "podcasts.html",
   "livres.html", "galerie.html", "contact.html", "mentions-legales.html", "confidentialite.html", "a-fournir.html"];
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -143,6 +143,17 @@ async function connecter(url) {
       f.telephone.value = '06 12 34 56 78'; f.requestSubmit(); await new Promise(r => setTimeout(r, 200));
       return [e1, f.querySelector('.form-status').className]`);
     verifier(t[0].includes("WhatsApp"), "téléphone non exigé : " + t[0]); verifier(t[1].includes("is-ok"), "pas de confirmation avec téléphone");
+  });
+
+  // 6 bis. Masterclass : présélection depuis Les offres, WhatsApp obligatoire
+  await test("masterclass : présélection et inscription", async () => {
+    await aller("masterclass.html?masterclass=cartographie");
+    const r = await js(`const f = document.querySelector('form[data-form="masterclass"]'); const v = f.masterclass.value;
+      f.prenom.value = 'Test'; f.email.value = 'test@exemple.fr'; f.requestSubmit(); await new Promise(r => setTimeout(r, 150));
+      const e1 = document.getElementById('mc-tel-erreur')?.textContent || '';
+      f.telephone.value = '06 12 34 56 78'; f.requestSubmit(); await new Promise(r => setTimeout(r, 200));
+      return [v, e1, f.querySelector('.form-status').className]`);
+    verifier(r[0] === "cartographie", "présélection : " + r[0]); verifier(r[1].includes("WhatsApp"), "WhatsApp non exigé"); verifier(r[2].includes("is-ok"), "pas de confirmation");
   });
 
   // 7. Galerie : visionneuse
