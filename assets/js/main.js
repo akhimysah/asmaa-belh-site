@@ -104,7 +104,7 @@ function renderHeader() {
     ${SHOW_DRAFT_UI ? '<div class="wip-banner">Squelette de site — version de travail, contenus à compléter</div>' : ""}
     <header class="site-header">
       <div class="container">
-        <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute • Autrice • Entrepreneure<br>Créatrice de la maison ORR</small></a>
+        <a class="logo logo-brand" href="index.html"><img class="logo-mark" src="assets/img/logo-monogramme.webp" alt="" width="140" height="200"><span class="logo-words"><img class="logo-type" src="assets/img/logo-asmaa-belh.webp" alt="Asmaa Belh" width="640" height="101"><small>Thérapeute • Autrice • Entrepreneure<br>Créatrice de la maison ORR</small></span></a>
         <nav class="nav-inline" aria-label="Navigation principale">
           ${MENU.filter((m) => m.href !== "index.html").map(
             (m) => `<a href="${m.href}" class="${page === m.href ? "active" : ""}"${page === m.href ? ' aria-current="page"' : ""}>${m.short || m.label}</a>`
@@ -121,7 +121,7 @@ function renderHeader() {
     <div class="menu-overlay" role="dialog" aria-modal="true" aria-label="Menu">
       <div class="menu-panel">
         <div class="menu-top">
-          <a class="logo" href="index.html">Asmaa Belh</a>
+          <a class="logo logo-brand" href="index.html"><img class="logo-mark" src="assets/img/logo-monogramme.webp" alt="" width="140" height="200"><span class="logo-words"><img class="logo-type" src="assets/img/logo-asmaa-belh.webp" alt="Asmaa Belh" width="640" height="101"></span></a>
           <button class="menu-close" aria-label="Fermer le menu">✕</button>
         </div>
         <div class="menu-label">Menu</div>
@@ -209,7 +209,7 @@ function renderFooter() {
       <div class="container">
         <div class="footer-grid">
           <div>
-            <a class="logo" href="index.html">Asmaa Belh<small>Thérapeute · Autrice · Entrepreneure</small></a>
+            <a class="logo logo-full" href="index.html"><img src="assets/img/logo-complet.webp" alt="Asmaa Belh — Thérapeute" width="560" height="300"></a>
             <p style="margin-top:1.2rem;max-width:320px">Quand une femme se réaligne, tout son monde change.</p>
           </div>
           <div>
