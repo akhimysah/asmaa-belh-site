@@ -269,24 +269,12 @@ function initPlaceholderToggle() {
   document.body.appendChild(btn);
 }
 
-function initGalleryFilters() {
-  const filters = document.querySelector(".filters");
-  if (!filters) return;
-  const items = document.querySelectorAll(".masonry [data-cat]");
-  filters.addEventListener("click", (e) => {
-    const b = e.target.closest("button");
-    if (!b) return;
-    filters.querySelectorAll("button").forEach((x) => { x.classList.remove("active"); x.setAttribute("aria-pressed", "false"); });
-    b.classList.add("active");
-    b.setAttribute("aria-pressed", "true");
-    const cat = b.dataset.filter;
-    items.forEach((it) => { it.style.display = cat === "all" || it.dataset.cat === cat ? "" : "none"; });
-  });
-}
-
+/* Galerie : visionneuse (ouverture depuis la vignette, flèches, Échap, glisser au doigt, bande de vignettes) */
 function initLightbox() {
-  const triggers = () => [...document.querySelectorAll(".g-open")].filter((b) => b.closest(".g-item").style.display !== "none");
   if (!document.querySelector(".g-open")) return;
+  const triggers = () => [...document.querySelectorAll(".g-open")].filter((b) => b.offsetParent !== null);
+  const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
   const box = document.createElement("div");
   box.className = "lightbox";
   box.setAttribute("role", "dialog");
@@ -294,50 +282,150 @@ function initLightbox() {
   box.setAttribute("aria-label", "Visionneuse");
   box.inert = true;
   box.innerHTML = `
-    <button class="lb-close" type="button" aria-label="Fermer">✕</button>
-    <button class="lb-prev" type="button" aria-label="Image précédente">←</button>
-    <figure><img alt=""><figcaption></figcaption></figure>
-    <button class="lb-next" type="button" aria-label="Image suivante">→</button>
-    <span class="lb-count" aria-live="polite"></span>`;
+    <div class="lb-top">
+      <span class="lb-count" aria-live="polite"></span>
+      <button class="lb-close" type="button" aria-label="Fermer">✕</button>
+    </div>
+    <div class="lb-stage">
+      <button class="lb-prev" type="button" aria-label="Image précédente">←</button>
+      <figure><img class="lb-img" alt=""><figcaption></figcaption></figure>
+      <button class="lb-next" type="button" aria-label="Image suivante">→</button>
+    </div>
+    <div class="lb-strip"></div>`;
   document.body.appendChild(box);
-  const img = box.querySelector("img"), cap = box.querySelector("figcaption"), count = box.querySelector(".lb-count");
-  let list = [], i = 0, opener = null;
-  const show = (n) => {
-    i = (n + list.length) % list.length;
+  const img = box.querySelector(".lb-img"), cap = box.querySelector("figcaption"), count = box.querySelector(".lb-count");
+  const stage = box.querySelector(".lb-stage"), strip = box.querySelector(".lb-strip");
+  const loaded = new Set();
+  let list = [], thumbs = [], i = 0, seq = 0;
+  const isOpen = () => box.classList.contains("open");
+  const dims = (t) => { const th = t.querySelector("img"); return [+th.getAttribute("width") || 3, +th.getAttribute("height") || 2]; };
+  // Taille de la photo : la plus grande possible dans la scène, sans trop agrandir le fichier
+  const fit = () => {
     const t = list[i];
-    img.src = t.dataset.full; img.alt = t.querySelector("img")?.alt || "";
-    cap.textContent = t.dataset.caption;
+    if (!t) return;
+    const [tw, thh] = dims(t), ar = tw / thh;
+    const cs = getComputedStyle(stage);
+    const W = stage.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const H = stage.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - (cap.textContent ? cap.offsetHeight + 12 : 0);
+    const w = Math.max(40, Math.min(W, H * ar, tw * 2));
+    img.style.width = Math.round(w) + "px";
+    img.style.height = Math.round(w / ar) + "px";
+  };
+  const preload = (src) => { if (loaded.has(src)) return; const p = new Image(); p.onload = () => loaded.add(src); p.src = src; };
+  const buildStrip = () => {
+    if (thumbs.length === list.length) return;
+    strip.innerHTML = "";
+    thumbs = list.map((t, k) => {
+      const [tw, thh] = dims(t);
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "lb-thumb"; b.tabIndex = -1;
+      b.style.setProperty("--ar", (tw / thh).toFixed(3));
+      b.setAttribute("aria-label", `Photo ${k + 1}${t.querySelector("img").alt ? " : " + t.querySelector("img").alt : ""}`);
+      const im = document.createElement("img");
+      im.alt = ""; im.decoding = "async"; im.src = t.dataset.full.replace(/\.(webp|jpe?g)$/, "-thumb.$1");
+      b.appendChild(im);
+      b.addEventListener("click", () => show(k, k > i ? 1 : -1));
+      strip.appendChild(b);
+      return b;
+    });
+  };
+  const show = (n, dir = 0) => {
+    i = (n + list.length) % list.length;
+    const t = list[i], th = t.querySelector("img"), full = t.dataset.full, token = ++seq;
+    img.alt = th.alt || "";
+    cap.textContent = t.dataset.caption || "";
     count.textContent = `${i + 1} / ${list.length}`;
+    box.style.setProperty("--p", (i + 1) / list.length);
+    // la vignette (déjà chargée) s'affiche tout de suite, la photo pleine taille la remplace dès qu'elle est prête
+    if (loaded.has(full)) img.src = full;
+    else {
+      img.src = th.currentSrc || th.src;
+      const p = new Image();
+      p.onload = () => { loaded.add(full); if (token === seq) img.src = full; };
+      p.src = full;
+    }
+    fit();
+    if (dir && !calm && img.animate) img.animate([{ opacity: 0, transform: `translateX(${dir * 40}px)` }, { opacity: 1, transform: "none" }], { duration: 560, easing: EASE });
+    thumbs.forEach((b, k) => { b.classList.toggle("is-active", k === i); if (k === i) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
+    const cur = thumbs[i];
+    if (cur) strip.scrollTo({ left: cur.offsetLeft - (strip.clientWidth - cur.offsetWidth) / 2, behavior: dir && !calm ? "smooth" : "auto" });
+    if (list.length > 1) { preload(list[(i + 1) % list.length].dataset.full); preload(list[(i - 1 + list.length) % list.length].dataset.full); }
   };
   const open = (t) => {
-    list = triggers(); opener = t;
-    show(list.indexOf(t));
+    const from = t.getBoundingClientRect();
+    list = triggers();
+    buildStrip();
     box.inert = false; box.classList.add("open"); document.body.classList.add("menu-open");
+    show(Math.max(0, list.indexOf(t)));
+    // la photo part de sa vignette et vient se poser au centre
+    const to = img.getBoundingClientRect();
+    if (!calm && img.animate && to.width && from.width) {
+      const k = Math.max(from.width / to.width, from.height / to.height);
+      const dx = from.left + from.width / 2 - (to.left + to.width / 2), dy = from.top + from.height / 2 - (to.top + to.height / 2);
+      img.animate([{ transform: `translate(${dx}px, ${dy}px) scale(${k})` }, { transform: "none" }], { duration: 700, easing: EASE });
+    }
     requestAnimationFrame(() => requestAnimationFrame(() => box.querySelector(".lb-close").focus()));
   };
   const close = () => {
     box.classList.remove("open"); box.inert = true; document.body.classList.remove("menu-open");
-    if (opener) opener.focus();
+    // on retrouve dans la page la photo que l'on regardait
+    const t = list[i];
+    if (!t) return;
+    t.focus({ preventScroll: true });
+    const r = t.getBoundingClientRect();
+    if (r.top < 0 || r.bottom > window.innerHeight) t.scrollIntoView({ block: "center" });
   };
   document.addEventListener("click", (e) => { const t = e.target.closest(".g-open"); if (t) open(t); });
   box.querySelector(".lb-close").addEventListener("click", close);
-  box.querySelector(".lb-prev").addEventListener("click", () => show(i - 1));
-  box.querySelector(".lb-next").addEventListener("click", () => show(i + 1));
-  box.addEventListener("click", (e) => { if (e.target === box) close(); });
+  box.querySelector(".lb-prev").addEventListener("click", () => show(i - 1, -1));
+  box.querySelector(".lb-next").addEventListener("click", () => show(i + 1, 1));
+  box.addEventListener("click", (e) => { if (e.target === box || e.target === stage || e.target.tagName === "FIGURE") close(); });
+  window.addEventListener("resize", () => { if (isOpen()) fit(); });
   document.addEventListener("keydown", (e) => {
-    if (!box.classList.contains("open")) return;
+    if (!isOpen()) return;
     if (e.key === "Escape") close();
-    if (e.key === "ArrowLeft") show(i - 1);
-    if (e.key === "ArrowRight") show(i + 1);
+    if (e.key === "ArrowLeft") show(i - 1, -1);
+    if (e.key === "ArrowRight") show(i + 1, 1);
     if (e.key === "Tab") {
-      const f = [...box.querySelectorAll("button")];
+      const f = [...box.querySelectorAll("button:not([tabindex='-1'])")].filter((b) => b.offsetParent !== null);
+      if (!f.length) return;
       if (e.shiftKey && document.activeElement === f[0]) { e.preventDefault(); f[f.length - 1].focus(); }
       else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { e.preventDefault(); f[0].focus(); }
     }
   });
   let x0 = null;
-  box.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
-  box.addEventListener("touchend", (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
+  stage.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+  stage.addEventListener("touchend", (e) => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 50) show(i + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1); x0 = null; });
+}
+
+/* Galerie : pastille « Voir » qui suit la souris au-dessus des photos (souris uniquement) */
+function initGalleryCursor() {
+  const gal = document.querySelector(".gal");
+  if (!gal || !matchMedia("(hover: hover) and (pointer: fine)").matches || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c = document.createElement("div");
+  c.className = "g-cursor";
+  c.setAttribute("aria-hidden", "true");
+  c.innerHTML = "<span>Voir</span>";
+  document.body.appendChild(c);
+  let x = 0, y = 0, tx = 0, ty = 0, raf = 0, on = false;
+  const set = (v) => { if (v === on) return; on = v; c.classList.toggle("on", on); document.documentElement.classList.toggle("g-cursor-on", on); };
+  const tick = () => {
+    x += (tx - x) * 0.22; y += (ty - y) * 0.22;
+    c.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)`;
+    raf = on || Math.abs(tx - x) + Math.abs(ty - y) > 0.5 ? requestAnimationFrame(tick) : 0;
+  };
+  const over = (el) => !!(el && el.closest && el.closest(".g-open")) && !document.body.classList.contains("menu-open");
+  gal.addEventListener("pointermove", (e) => {
+    if (e.pointerType !== "mouse") return;
+    tx = e.clientX; ty = e.clientY;
+    const o = over(e.target);
+    if (o && !on) { x = tx; y = ty; }
+    set(o);
+    if (!raf) raf = requestAnimationFrame(tick);
+  });
+  gal.addEventListener("pointerleave", () => set(false));
+  gal.addEventListener("click", () => set(false));
+  window.addEventListener("scroll", () => { if (on) set(over(document.elementFromPoint(tx, ty))); }, { passive: true });
 }
 
 /* ---------------------------------------------------------
@@ -462,7 +550,7 @@ function applyPresentation() {
   });
   document.querySelectorAll(".contact-list, .legal-list, .facts").forEach((l) => { if (![...l.children].some(shown)) hide(l); });
   // grilles à deux colonnes dont une colonne a disparu
-  document.querySelectorAll(".masonry > .img-ph, .accomp-aside > .img-ph").forEach(hide);
+  document.querySelectorAll(".accomp-aside > .img-ph").forEach(hide);
   document.querySelectorAll(".split, .accomp-layout, .prog").forEach((g) => {
     [...g.children].filter((c) => c.classList.contains("img-ph") || (c.children.length === 1 && c.firstElementChild.classList.contains("img-ph"))).forEach(hide);
     if ([...g.children].filter(shown).length < 2) g.classList.add("is-single");
@@ -595,8 +683,8 @@ document.addEventListener("DOMContentLoaded", () => {
   renderFooter();
   initReveal();
   initPlaceholderToggle();
-  initGalleryFilters();
   initLightbox();
+  initGalleryCursor();
   initForms();
   initBackToTop();
   initPrefill();

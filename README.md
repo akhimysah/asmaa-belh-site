@@ -13,7 +13,7 @@ Site statique (HTML / CSS / JS, sans dépendance ni build). Ouvrir `index.html` 
 | ORR | `orr.html` | Simple renvoi vers le site ORR : renseigner `ORR_URL` dans `assets/js/main.js` et tous les liens « ORR » ouvrent ce site |
 | Podcasts | `podcasts.html` | Les derniers épisodes (#derniers) · Tous les podcasts (#tous) |
 | Livres | `livres.html` | Sexy & Sacrée · Love Programme |
-| Galerie | `galerie.html` | Grille filtrable de photos |
+| Galerie | `galerie.html` | Mosaïque de photos composée à la main, visionneuse |
 | Contact | `contact.html` | Email · téléphone · réseaux · formulaire |
 
 Le header, le menu plein écran numéroté (réf. maquette) et le footer sont générés par `assets/js/main.js` : l'arborescence se modifie dans la constante `MENU`.
@@ -46,6 +46,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 - Couleurs : noir `#0b0a0a`, bordeaux `#3d0f1a`, or `#d4b46a` (dégradé or pour le logo, le titre et les boutons), ivoire `#f5efe4`.
 - Photos : dans `assets/img/`. Les affiches sources (1024 px) ont été agrandies x4 par IA (Real-ESRGAN, script dans le scratchpad de session) avant recadrage ; pour un rendu optimal, remplacer par les exports HD dès réception.
 - Typographies : Cormorant Garamond (titres), Playfair Display (titre d'accueil), Jost (texte). Hébergées sur le site dans `assets/fonts/` (licence SIL OFL), déclarées dans `assets/css/fonts.css`.
+- Sections teintées (`section-sand`, `section-plum`) : la couleur naît du noir en haut et y retourne en bas (fondu réglable par `--fondu`) au lieu d'une coupure nette ; un grain très fin évite les bandes dans les dégradés. Sur `section-sand`, deux halos (bordeaux, doré) respirent lentement et les filets dorés s'estompent aux extrémités ; l'animation est coupée si le visiteur a réduit les animations.
 - Tout est ajustable dans les variables en tête de `assets/css/style.css`.
 
 ## Technique
@@ -57,7 +58,7 @@ Chaque contenu manquant est signalé par un bloc en pointillés avec une étique
 - **Brouillon non indexé** : `noindex` sur toutes les pages et `robots.txt`. À retirer à la mise en production.
 - **Couvertures de livres** : copies locales dans `assets/img/livre-*.jpg` (plus d'appel aux images Amazon).
 - **Images WebP** : chaque JPEG a sa version `.webp` (55 % plus légère), servie via `<picture>` avec le JPEG en secours. Pour ajouter une image, générer aussi sa version WebP.
-- **Galerie** : `assets/img/galerie/` (pleine taille + `-thumb`), visionneuse au clic (flèches, Échap, glisser sur mobile).
+- **Galerie** : `assets/img/galerie/` (pleine taille + `-thumb`). Mosaïque composée rangée par rangée dans `galerie.html` : `.g-line` (photos côte à côte, même hauteur, sans recadrage), `.g-trio` (un grand format `.g-big` et deux petits ; `g-trio--inverse` = grand format à droite), `.g-pano` (panoramique seul). Sur chaque photo, `--ar` = largeur ÷ hauteur de la vignette et `--d` = retard d'apparition. Pour ajouter une photo : copier un bloc `<figure>` dans une rangée (ou créer une rangée) et ajuster `--ar`. Les photos se dévoilent comme un lever de rideau au défilement ; visionneuse au clic (la photo part de sa vignette, flèches, Échap, glisser sur mobile, bande de vignettes, filet de progression).
 - **Données structurées** (schema.org) : Personne et Site sur l'accueil, Personne sur la page Asmaa, les deux Livres sur la page Livres.
 - **Formulaires** (contact, liste d'attente, lettre) : validation en français, piège anti-robots, mention de confidentialité. Pour les rendre réels, coller l'adresse d'envoi du service choisi (Formspree, Getform, Basin…) dans `FORM_ENDPOINTS` en haut de la section formulaires de `assets/js/main.js`. Vide = mode démonstration.
 - **Suivi et saisie des contenus** : `a-fournir.html` liste automatiquement toutes les zones « À fournir » du site. La cliente peut écrire ses textes sous chaque élément (sauvegarde automatique dans son navigateur, progression par page), puis télécharger un fichier `.txt` de ses réponses à renvoyer avec ses photos. Page non liée dans le menu.
