@@ -1995,7 +1995,7 @@ body.menu-open .section-rail { opacity: 0; pointer-events: none; }
 .num { display: none !important; }
 
 /* Galerie en noir et blanc */
-.gal img, .lightbox img { filter: grayscale(1); }
+.gal img, .lightbox img, .photo-nb img { filter: grayscale(1); }
 
 /* ---------- Logo du projet (image) ---------- */
 .logo.logo-brand, .logo.logo-full { background: none; -webkit-text-fill-color: initial; color: inherit; }
